@@ -5,7 +5,13 @@ export const useRecipeForm = () => {
     const form = useForm<RecipeFormValues>({
         initialValues: {
             title: "",
-            content: "",
+            description: "",
+            ingredients: "",
+            steps: "",
+            difficulty: 2,
+            timeToMake: 40,
+            authorId: 0,
+            categoryIds: [0]
         },
 
         validate: {
@@ -15,11 +21,19 @@ export const useRecipeForm = () => {
                 }
             },
 
-            content: (value) => {
+            description: (value) => {
                 if (value.length < 10) {
                     return "Content must be a least 10 characters long";
                 }
-            }
+            },
+
+            difficulty: (value) => {
+                if (value <= 3 && value >= 1) {
+                    return "Difficulty level must be between 1 and 3";
+                }
+            },
+
+
         },
     });
     return form;

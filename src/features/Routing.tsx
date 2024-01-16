@@ -10,6 +10,7 @@ import {useIsLogged} from "../hooks/useIsLogged";
 const publicRoutes: RouteObject[] = [
     {
         path: '/',
+        element: <Layout/>,
         children: [
             {
                 path: '/login',

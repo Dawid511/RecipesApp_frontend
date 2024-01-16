@@ -20,7 +20,6 @@ const publicRoutes: RouteObject[] = [
                 path: '*',
                 element: <Navigate to='/login' replace/>
             }
-
         ]
 
     }

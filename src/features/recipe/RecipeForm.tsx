@@ -87,7 +87,7 @@ export const RecipeForm = () => {
                     <MultiSelect
                         label="Your favorite libraries"
                         placeholder="Pick value"
-                        data={['React', 'Angular', 'Vue', 'Svelte']}
+                        data={['Danie wegetariańskie']} // dokonczyc
                         defaultValue={['React']}
                         clearable
                     />

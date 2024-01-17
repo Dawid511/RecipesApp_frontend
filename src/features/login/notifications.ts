@@ -4,6 +4,14 @@ export const loginErrorNotification = () => {
     showNotification({
         color: 'red',
         title: 'Error',
-        message: 'Login failed'
+        message: 'Login failed',
+    })
+}
+
+export const registerErrorNotification = () => {
+    showNotification({
+        color: 'red',
+        title: 'Error',
+        message: 'Register failed'
     })
 }

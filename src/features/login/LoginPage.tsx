@@ -41,7 +41,7 @@ export const LoginPage: FC = () => {
     const handleSubmit = async (data: LoginFormType) => {
         try {
             await login(data.email, data.password);
-            navigate('/recipePage');
+            navigate('/recipe');
         } catch (error) {
             registerErrorNotification();
         }
@@ -75,8 +75,10 @@ export const LoginPage: FC = () => {
                         <Title order={3}>Logowanie</Title>
                         <TextInput required label="adres e-mail" placeholder="Twój e-mail"
                                    style={{marginBottom: '1rem'}} {...form.getInputProps('email')} />
-                        <TextInput required label="Hasło" placeholder="Twoje hasło"
-                                   style={{marginBottom: '1rem'}} {...form.getInputProps('password')} />
+                        {/*<TextInput required label="Hasło" placeholder="Twoje hasło"*/}
+                        {/*           style={{marginBottom: '1rem'}} {...form.getInputProps('password')} />*/}
+                        <PasswordInput required label="Hasło" placeholder="podaj hasło"
+                                       style={{marginBottom: '1rem'}} {...form.getInputProps('password')} />
                         <Button fullWidth type="submit">Zaloguj się</Button>
 
                     </form>

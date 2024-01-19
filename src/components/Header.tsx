@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom";
-import {Group} from "@mantine/core";
+import {Avatar, Button, Group, NavLink} from "@mantine/core";
+import {RecipeList} from "../features/recipe/RecipeList";
 
 export const Header = () => {
     return (
@@ -15,6 +16,16 @@ export const Header = () => {
                             width: "auto",
                         }}
                     />
+
+                    <Link
+                        to="/recipe"
+                        style={{color: "black", fontWeight: "bold"}}
+                    >
+                        Strona gotowania
+                    </Link>
+                    <Button component={Link} to="/recipe/new" variant="outline" color="dark">
+                        Dodaj przepis
+                    </Button>
 
 
                 </Group>

@@ -33,7 +33,6 @@ export const Layout = () => {
 
             <AppShell.Main>
                 <Outlet/>
-
             </AppShell.Main>
 
 

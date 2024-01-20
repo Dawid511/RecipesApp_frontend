@@ -1,12 +1,10 @@
 import React, {FC} from "react";
 import {useForm} from "@mantine/form";
-import {Button, Container, Divider, Group, Paper, Stack, TextInput, Title, Text, PasswordInput} from "@mantine/core";
+import {Button, Container, Divider, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
 import {useNavigate} from "react-router-dom";
 import {login} from "./api/login";
-import {loginErrorNotification, registerErrorNotification} from "./notifications";
+import {registerErrorNotification} from "./notifications";
 import {register} from "./api/register";
-import {Simulate} from "react-dom/test-utils";
-import submit = Simulate.submit;
 
 type LoginFormType = {
     email: string;

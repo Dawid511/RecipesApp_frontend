@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {SimpleGrid, Pagination, Center} from "@mantine/core";
 import { RecipeType } from "../../types/RecipeType";
 import { RecipeItem } from "./RecipeItem";
 import { listRecipe } from "./api/recipe";
+import {CategoryContext} from "../categories/CategoryContext";
 
 const ITEMS_PER_PAGE = 6;
 
 export const RecipeList = () => {
     const [data, setData] = useState<RecipeType[]>([]);
     const [activePage, setActivePage] = useState(1);
+    const { categoryId } = useContext(CategoryContext);
 
     useEffect(() => {
-        listRecipe().then((response) => setData(response));
-    }, []);
+        listRecipe(categoryId).then((response) => setData(response));
+        console.log(categoryId);
+    }, [categoryId]);
+
+
 
     const paginatedData = data.slice(
         (activePage - 1) * ITEMS_PER_PAGE,

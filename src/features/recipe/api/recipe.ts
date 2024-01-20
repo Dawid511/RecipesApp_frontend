@@ -2,6 +2,11 @@ import ky from "ky";
 import {API_URL} from "../../../config";
 import {RecipeType} from "../../../types/RecipeType";
 
-export const listRecipe = async () => {
-    return ky.get(`${API_URL}/recipe`, {credentials: "include"}).json<RecipeType[]>();
+export const listRecipe = async (categoryId?: number) => {
+    const params = new URLSearchParams();
+
+    if (categoryId) {
+        params.append('categoryId', categoryId.toString());
+    }
+    return ky.get(`${API_URL}/recipe`, { searchParams: params, credentials: "include"}).json<RecipeType[]>();
 }

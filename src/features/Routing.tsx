@@ -18,6 +18,10 @@ const publicRoutes: RouteObject[] = [
                 element: <LoginPage/>
             },
             {
+                index: true, // Ustawia default sciezke
+                element: <Navigate to="/login" replace />
+            },
+            {
                 path: '*',
                 element: <Navigate to='/login' replace/>
             }
@@ -41,9 +45,6 @@ const privateRoutes: RouteObject[] = [
             {
                 path: '/recipe/:id',
                 element: <RecipeInformation/>
-            },
-            {
-                path: '/recipe'
             },
             {
                 path: '*',

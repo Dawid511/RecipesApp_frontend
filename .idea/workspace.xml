@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f2cee0f-77d3-474e-bb67-4d61f83d3b67" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/features/categories/api/get-categories.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/login/api/get-me.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/CategoryType.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/UserType.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/Routing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/Routing.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/recipe/hooks/useRecipeForm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/hooks/useRecipeForm.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeList.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +30,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -50,14 +48,16 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "front",
+    "last_opened_file_path": "C:/Users/patip/OneDrive/Desktop/before/Inzynieria_Internetu/Projekt_ii/backend/projekt-zaliczeniowy-grabalski-jablonska",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "C:\\Users\\uzytkownik\\Desktop\\ProjektII\\front\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\patip\\OneDrive\\Desktop\\before\\Inzynieria_Internetu\\Projekt_ii\\projekt-zaliczeniowy-grabalski-jablonska\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -73,6 +73,7 @@
       <workItem from="1705693939403" duration="608000" />
       <workItem from="1705694741887" duration="7022000" />
       <workItem from="1705704413373" duration="11043000" />
+      <workItem from="1705751152048" duration="6936000" />
     </task>
     <servers />
   </component>

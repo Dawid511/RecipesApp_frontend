@@ -1,0 +1,84 @@
+Index: src/components/Layout.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {Outlet} from \"react-router-dom\";\r\nimport {Header} from \"./Header\";\r\nimport {AppShell, Burger, Group} from \"@mantine/core\";\r\nimport {useDisclosure} from \"@mantine/hooks\";\r\nimport {AppNavbar} from \"./AppNavbar\";\r\n\r\nexport const Layout = () => {\r\n    const [opened, {toggle}] = useDisclosure();\r\n    return (\r\n        <AppShell\r\n            header={{height: 130}}\r\n            navbar={{width: 300, breakpoint: 'sm', collapsed: {mobile: !opened}}}\r\n            padding=\"md\"\r\n        >\r\n            <AppShell.Header>\r\n                <Group h=\"100%\" px=\"md\">\r\n                    <Burger opened={opened} onClick={toggle} hiddenFrom=\"sm\" size=\"sm\"/>\r\n                    {/*logo*/}\r\n                    <Header/>\r\n\r\n                </Group>\r\n            </AppShell.Header>\r\n            <AppShell.Navbar p=\"md\">\r\n                <AppNavbar/>\r\n            </AppShell.Navbar>\r\n            <AppShell.Main>\r\n                <Outlet/>\r\n            </AppShell.Main>\r\n        </AppShell>\r\n\r\n    )\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Layout.tsx b/src/components/Layout.tsx
+--- a/src/components/Layout.tsx	
++++ b/src/components/Layout.tsx	
+@@ -1,14 +1,17 @@
+ import {Outlet} from "react-router-dom";
+ import {Header} from "./Header";
+ import {AppShell, Burger, Group} from "@mantine/core";
+-import {useDisclosure} from "@mantine/hooks";
++import {useDisclosure, useHeadroom} from "@mantine/hooks";
+ import {AppNavbar} from "./AppNavbar";
++import {Footer} from "./Footer";
+ 
+ export const Layout = () => {
+     const [opened, {toggle}] = useDisclosure();
++    const pinned = useHeadroom({ fixedAt: 400 });
+     return (
+         <AppShell
+             header={{height: 130}}
++            footer={{height: 50, offset: true, collapsed: pinned}}
+             navbar={{width: 300, breakpoint: 'sm', collapsed: {mobile: !opened}}}
+             padding="md"
+         >
+@@ -23,6 +26,9 @@
+             <AppShell.Navbar p="md">
+                 <AppNavbar/>
+             </AppShell.Navbar>
++            <AppShell.Footer p="md">
++                <Footer/>
++            </AppShell.Footer>
+             <AppShell.Main>
+                 <Outlet/>
+             </AppShell.Main>
+Index: src/features/recipe/hooks/useRecipeForm.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {useForm} from \"@mantine/form\";\r\nimport {RecipeFormValues} from \"../../../types/RecipeFormValues\";\r\n\r\nexport const useRecipeForm = () => {\r\n    const form = useForm<RecipeFormValues>({\r\n        initialValues: {\r\n            title: \"\",\r\n            description: \"\",\r\n            ingredients: \"\",\r\n            steps: \"\",\r\n            difficulty: 2,\r\n            timeToMake: 40,\r\n            authorId: 0,\r\n            categoryIds: [0]\r\n        },\r\n\r\n        validate: {\r\n            title: (value) => {\r\n                if (value.length < 3) {\r\n                    return \"Title must be a least 3 characters long\";\r\n                }\r\n            },\r\n\r\n            description: (value) => {\r\n                if (value.length < 10) {\r\n                    return \"Content must be a least 10 characters long\";\r\n                }\r\n            },\r\n\r\n            difficulty: (value) => {\r\n                if (value <= 3 && value >= 1) {\r\n                    return \"Difficulty level must be between 1 and 3\";\r\n                }\r\n            },\r\n\r\n\r\n        },\r\n    });\r\n    return form;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/recipe/hooks/useRecipeForm.ts b/src/features/recipe/hooks/useRecipeForm.ts
+--- a/src/features/recipe/hooks/useRecipeForm.ts	
++++ b/src/features/recipe/hooks/useRecipeForm.ts	
+@@ -28,7 +28,7 @@
+             },
+ 
+             difficulty: (value) => {
+-                if (value <= 3 && value >= 1) {
++                if (value >= 3 || value <= 1) {
+                     return "Difficulty level must be between 1 and 3";
+                 }
+             },
+Index: src/components/Footer.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {Text} from '@mantine/core';\r\n\r\nexport const Footer = () => {\r\n    return (\r\n        <div style={{display: 'flex', justifyContent: 'center', minHeight: '100vh'}}>\r\n            <Text fs=\"italic\" fw={700}>\r\n                Pyszne Inspiracje by Dawid Grabalski & Patrycja Jabłońska\r\n            </Text>\r\n        </div>\r\n    );\r\n};
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Footer.tsx b/src/components/Footer.tsx
+--- a/src/components/Footer.tsx	
++++ b/src/components/Footer.tsx	
+@@ -1,8 +1,12 @@
+-import {Text} from '@mantine/core';
+-
++import {AppShellResponsiveSize, Text} from '@mantine/core';
++interface Configuration {
++    height: AppShellResponsiveSize;
++    collapsed?: boolean;
++    offset?: boolean;
++}
+ export const Footer = () => {
+     return (
+-        <div style={{display: 'flex', justifyContent: 'center', minHeight: '100vh'}}>
++        <div style={{display: 'flex', justifyContent: 'center'}}>
+             <Text fs="italic" fw={700}>
+                 Pyszne Inspiracje by Dawid Grabalski & Patrycja Jabłońska
+             </Text>

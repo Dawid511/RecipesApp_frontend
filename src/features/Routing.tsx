@@ -5,6 +5,7 @@ import {RecipeForm} from "./recipe/RecipeForm";
 import {ErrorPage} from "./error/ErrorPage";
 import {LoginPage} from "./login/LoginPage";
 import {useIsLogged} from "../hooks/useIsLogged";
+import {RecipeInformation} from "./recipe/RecipeInformation";
 
 
 const publicRoutes: RouteObject[] = [
@@ -39,7 +40,7 @@ const privateRoutes: RouteObject[] = [
             },
             {
                 path: '/recipe/:id',
-                element: <RecipeForm/>
+                element: <RecipeInformation/>
             },
             {
                 path: '/recipe'

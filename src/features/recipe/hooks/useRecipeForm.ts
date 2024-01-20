@@ -28,7 +28,7 @@ export const useRecipeForm = () => {
             },
 
             difficulty: (value) => {
-                if (value <= 3 && value >= 1) {
+                if (value < 1 || value > 3) {
                     return "Difficulty level must be between 1 and 3";
                 }
             },

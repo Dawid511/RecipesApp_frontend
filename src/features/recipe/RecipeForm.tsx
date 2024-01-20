@@ -5,16 +5,59 @@ import {createRecipe} from "./api/create-recipe";
 import {recipeErrorNotification} from "./notification";
 import {recipeSuccessNotification} from "./notificationSucces";
 import {useEffect, useState} from "react";
-import {listRecipe} from "./api/recipe";
-import {RecipeType} from "../../types/RecipeType";
+import {listCategories} from "../categories/api/get-categories";
+import {CategoryType} from "../../types/CategoryType";
+import {UserType} from "../../types/UserType";
+import {listMe} from "../login/api/get-me";
+
+interface SelectItem {
+    value: string;
+    label: string;
+}
+
+interface SelectItem2 {
+    id: string;
+    label: string;
+    label2: string;
+    label3: string;
+    isAdmin: boolean;
+}
 
 export const RecipeForm = () => {
-    const [data, setData] = useState<RecipeType[]>([]);
+    const [data2 , setData2] = useState<UserType[]>([]);
     const form = useRecipeForm();
 
+    const [data, setData] = useState<SelectItem[]>([]);
     useEffect(() => {
-        listRecipe().then((response) => setData(response));
-    }, [])
+        listCategories().then((response: CategoryType[]) => {
+            const formattedCategories: SelectItem[] = response.map(category => ({
+                value: category.id.toString(), // Assuming id is a number and needs to be converted to string
+                label: category.name
+            }));
+            setData(formattedCategories);
+        });
+    }, []);
+
+    let [userData, setUserData] = useState<UserType>();
+
+    // useEffect(() => {
+    //     listMe().then((user: UserType[]) => { // Expect an array here
+    //
+    //             setUserData(user[0]); // Set the user data in the state
+    //
+    //             // Now you can safely use user.id
+    //             form.setFieldValue('authorId', user[0].id);
+    //
+    //     });
+    // }, []);
+
+    useEffect(() => {
+        listMe().then((user) => {
+            // Assuming listMe returns a single user object
+            form.setFieldValue('authorId', user.id);
+        });
+    }, []);
+
 
 
     const handleSubmit = async (vals: RecipeFormValues) => {
@@ -77,19 +120,23 @@ export const RecipeForm = () => {
                         {...form.getInputProps('timeToMake')}
                     />
 
-                    <NumberInput
-                        label="ID autora"
-                        description="Input description"
-                        placeholder="Input placeholder"
-                        {...form.getInputProps('authorId')}
-                    />
+                    {/*<NumberInput*/}
+                    {/*    label="ID autora"*/}
+                    {/*    description="Input description"*/}
+                    {/*    placeholder="Input placeholder"*/}
+                    {/*    {...form.getInputProps('authorId')}*/}
+                    {/*/>*/}
 
                     <MultiSelect
                         label="Your favorite libraries"
                         placeholder="Pick value"
-                        data={['Danie wegetariańskie']} // dokonczyc
-                        defaultValue={['React']}
+                        data={data}
                         clearable
+                        onChange={(selectedValues) => {
+                            // Convert the string values back to numbers and update the form state
+                            const categoryIds = selectedValues.map((value) => parseInt(value, 10));
+                            form.setFieldValue('categoryIds', categoryIds);
+                        }}
                     />
 
                     <Group justify="flex-end" mt="md">

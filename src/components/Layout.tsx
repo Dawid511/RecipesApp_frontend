@@ -18,16 +18,14 @@ export const Layout = () => {
             <AppShell.Header>
                 <Group h="100%" px="md">
                     <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm"/>
-                    {/*logo*/}
                     <Header/>
-
                 </Group>
             </AppShell.Header>
             <AppShell.Navbar p="md">
                 <AppNavbar/>
             </AppShell.Navbar>
-            <AppShell.Footer>
-                <Footer/>
+            <AppShell.Footer p="md">
+                <Footer />
             </AppShell.Footer>
 
 

@@ -1,6 +1,8 @@
 import {Link} from "react-router-dom";
-import {Avatar, Button, Group, NavLink, Portal} from "@mantine/core";
-import {RecipeList} from "../features/recipe/RecipeList";
+import {Avatar, Button, Group} from "@mantine/core";
+import {IconHeart, IconPlus} from "@tabler/icons-react";
+import React from "react";
+
 
 export const Header = () => {
     return (
@@ -17,16 +19,18 @@ export const Header = () => {
                         }}
                     />
 
-                    <Link
-                        to="/recipe"
-                        style={{color: "black", fontWeight: "bold"}}
-                    >
+                    <Button component={Link} to="/recipe" color="dark">
                         Strona gotowania
-                    </Link>
-                    <Button component={Link} to="/recipe/new" variant="outline" color="dark">
+                    </Button>
+                    <Button leftSection={<IconPlus size={16} />}  component={Link} to="/recipe/new" variant="outline" color="dark">
                         Dodaj przepis
                     </Button>
-
+                    <Button component={Link} to="/recipe" variant="outline" color="dark">
+                        Moje przepisy
+                    </Button>
+                    <Button leftSection={<IconHeart size={16} />} component={Link} to="/recipe" variant="outline" color="dark">
+                        Polubione
+                    </Button>
 
                 </Group>
             </Group>

@@ -5,17 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f2cee0f-77d3-474e-bb67-4d61f83d3b67" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/features/comment/Comment.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/comment/CommentForm.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/comment/api/comment.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/comment/api/create-comment.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/comment/hooks/useCommentForm.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/CommentFormValues.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/CommentType.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_01_2024_15_12__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_01_2024_15_12__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/rating/rating.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/comment/Comment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/comment/Comment.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/comment/CommentForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/comment/CommentForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/comment/api/comment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/comment/api/comment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/comment/api/create-comment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/comment/api/create-comment.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeList.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +25,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -51,7 +51,9 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "front",
+    "last_opened_file_path": "C:/Users/patip/OneDrive/Desktop/before/Inzynieria_Internetu/Projekt_ii/backend/projekt-zaliczeniowy-grabalski-jablonska",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -74,6 +76,7 @@
       <workItem from="1705693939403" duration="608000" />
       <workItem from="1705694741887" duration="7022000" />
       <workItem from="1705704413373" duration="11043000" />
+      <workItem from="1705839020283" duration="15215000" />
     </task>
     <servers />
   </component>

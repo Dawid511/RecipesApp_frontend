@@ -4,5 +4,5 @@ import {CommentFormValues} from "../../../types/CommentFormValues";
 import {CommentType} from "../../../types/CommentType";
 
 export const createComment = async (data: CommentFormValues) => {
-    return ky.post(`${API_URL}/recipe/:id`, {json: data, credentials: "include"}).json <CommentType>();
+    return ky.post(`${API_URL}/comment`, {json: data, credentials: "include"}).json <CommentType>();
 }

@@ -11,13 +11,14 @@ import {
 } from "@tabler/icons-react";
 import { listMe } from "../login/api/get-me";
 import {CommentList} from "../comment/Comment";
+import {CommentForm} from "../comment/CommentForm";
 
 export const RecipeInformation: React.FC = () => {
     const [data, setData] = useState<RecipeType[]>([]);
     const [authorName, setAuthorName] = useState<string>("");
     const [value, setValue] = useState(0);
     // Używamy hooka useParams do pobrania wartości z dynamicznej ścieżki
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams<{ id: string}>();
 
     useEffect(() => {
         if (data.length === 0) {
@@ -93,10 +94,7 @@ export const RecipeInformation: React.FC = () => {
                     <p>Oceń przepis!</p>
                     <Rating size="lg" value={value} onChange={setValue} />
                 </Group>
-                <MantineProvider>
-                    <Input variant="underline" placeholder="Dodaj komentarz" />
-
-                </MantineProvider>
+                    <CommentForm recipeId={selectedRecipe.id}/>
                 <CommentList recipeId={selectedRecipe.id} />
             </div>
         </Paper>

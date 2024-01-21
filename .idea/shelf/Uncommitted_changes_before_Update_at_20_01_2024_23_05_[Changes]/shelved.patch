@@ -1,0 +1,266 @@
+Index: src/features/recipe/RecipeList.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useState, useEffect } from \"react\";\r\nimport {SimpleGrid, Pagination, Center} from \"@mantine/core\";\r\nimport { RecipeType } from \"../../types/RecipeType\";\r\nimport { RecipeItem } from \"./RecipeItem\";\r\nimport { listRecipe } from \"./api/recipe\";\r\n\r\nconst ITEMS_PER_PAGE = 6;\r\n\r\nexport const RecipeList = () => {\r\n    const [data, setData] = useState<RecipeType[]>([]);\r\n    const [activePage, setActivePage] = useState(1);\r\n\r\n    useEffect(() => {\r\n        listRecipe().then((response) => setData(response));\r\n    }, []);\r\n\r\n    const paginatedData = data.slice(\r\n        (activePage - 1) * ITEMS_PER_PAGE,\r\n        activePage * ITEMS_PER_PAGE\r\n    );\r\n\r\n    const handlePageChange = (page: number) => {\r\n        setActivePage(page);\r\n    };\r\n\r\n    return (\r\n        <div style={{ width: \"100%\" }}>\r\n            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>\r\n                {paginatedData.map((item) => (\r\n                    <RecipeItem key={item.id} item={item} />\r\n                ))}\r\n            </SimpleGrid>\r\n            <Center>\r\n            <Pagination\r\n                total={Math.ceil(data.length / ITEMS_PER_PAGE)}\r\n                value={activePage}\r\n                onChange={handlePageChange}\r\n                mt=\"sm\"\r\n                color=\"rgba(0, 0, 0, 1)\"\r\n                radius=\"xl\"\r\n            />\r\n            </Center>\r\n        </div>\r\n    );\r\n};\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/recipe/RecipeList.tsx b/src/features/recipe/RecipeList.tsx
+--- a/src/features/recipe/RecipeList.tsx	(revision 3c7cc620acda46de2fa142ff20d55cdd0bd29447)
++++ b/src/features/recipe/RecipeList.tsx	(date 1705787975016)
+@@ -4,7 +4,7 @@
+ import { RecipeItem } from "./RecipeItem";
+ import { listRecipe } from "./api/recipe";
+ 
+-const ITEMS_PER_PAGE = 6;
++const ITEMS_PER_PAGE = 9;
+ 
+ export const RecipeList = () => {
+     const [data, setData] = useState<RecipeType[]>([]);
+Index: src/features/recipe/RecipeInformation.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useEffect, useState } from \"react\";\r\nimport { useParams } from \"react-router-dom\";\r\nimport { RecipeType } from \"../../types/RecipeType\";\r\nimport { listRecipe } from \"./api/recipe\";\r\nimport {Divider, Rating} from \"@mantine/core\";\r\n\r\nexport const RecipeInformation: React.FC = () => {\r\n    const [data, setData] = useState<RecipeType[]>([]);\r\n    const [value, setValue] = useState(0);\r\n\r\n    //Używamy hooka useParams do pobrania wartości z dynamicznej ścieżki\r\n    const { id } = useParams<{ id: string }>();\r\n\r\n    useEffect(() => {\r\n        if (data.length === 0) {\r\n            listRecipe().then((response) => {\r\n                setData(response);\r\n            });\r\n        }\r\n    }, [data]);\r\n\r\n    const selectedRecipe = data.find((recipe) => recipe.id === (id ? +id : undefined));\r\n\r\n    if (!selectedRecipe) {\r\n        return <div>Recipe not found.</div>;\r\n    }\r\n    const dividerStyle = {\r\n        label: {\r\n            fontSize: \"20px\"\r\n        }\r\n    };\r\n    return (\r\n        <div style={{ width: '100%' }}>\r\n            <h2>{selectedRecipe.title}<Rating value={value} onChange={setValue}/></h2>\r\n\r\n            <Divider size=\"md\" label=\"Description\" labelPosition=\"left\" styles={dividerStyle}/>\r\n            <p>{selectedRecipe.description}</p>\r\n            <Divider size=\"md\" label=\"Ingredients\" labelPosition=\"left\" styles={dividerStyle}/>\r\n            <p>{selectedRecipe.ingredients}</p>\r\n            <Divider size=\"md\" label=\"Steps\" labelPosition=\"left\" styles={dividerStyle}/>\r\n            <p>{selectedRecipe.steps}</p>\r\n            <p>Difficulty: {selectedRecipe.difficulty}</p>\r\n            <p>Time to Make: {selectedRecipe.timeToMake} minutes</p>\r\n            <p>Author ID: {selectedRecipe.authorId}</p>\r\n        </div>\r\n    );\r\n};\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/recipe/RecipeInformation.tsx b/src/features/recipe/RecipeInformation.tsx
+--- a/src/features/recipe/RecipeInformation.tsx	(revision 3c7cc620acda46de2fa142ff20d55cdd0bd29447)
++++ b/src/features/recipe/RecipeInformation.tsx	(date 1705787568312)
+@@ -1,14 +1,24 @@
+ import React, { useEffect, useState } from "react";
+-import { useParams } from "react-router-dom";
++import {Link, useParams} from "react-router-dom";
+ import { RecipeType } from "../../types/RecipeType";
+ import { listRecipe } from "./api/recipe";
+-import {Divider, Rating} from "@mantine/core";
++import {Button, Divider, Group, Rating, ThemeIcon} from "@mantine/core";
++import {
++    IconCircle,
++    IconCircleFilled,
++    IconClockHour2,
++    IconHeartPlus,
++    IconMessageCircle2,
++    IconPencilPlus
++} from "@tabler/icons-react";
++import { listMe } from "../login/api/get-me";
++import {CommentList} from "../comment/Comment";
+ 
+ export const RecipeInformation: React.FC = () => {
+     const [data, setData] = useState<RecipeType[]>([]);
+-    const [value, setValue] = useState(0);
++    const [authorName, setAuthorName] = useState<string>("");
+ 
+-    //Używamy hooka useParams do pobrania wartości z dynamicznej ścieżki
++    // Używamy hooka useParams do pobrania wartości z dynamicznej ścieżki
+     const { id } = useParams<{ id: string }>();
+ 
+     useEffect(() => {
+@@ -19,29 +29,74 @@
+         }
+     }, [data]);
+ 
++    useEffect(() => {
++        // Pobieram informacje o zalogowanym użytkowniku
++        listMe().then((user) => {
++            // Przypisuje imię i nazwisko do state
++            setAuthorName(`${user.firstName} ${user.lastName}`);
++        });
++    }, []);
++
+     const selectedRecipe = data.find((recipe) => recipe.id === (id ? +id : undefined));
+ 
+     if (!selectedRecipe) {
+         return <div>Recipe not found.</div>;
+     }
++
+     const dividerStyle = {
+         label: {
+-            fontSize: "20px"
+-        }
++            fontSize: "20px",
++        },
+     };
++
+     return (
+-        <div style={{ width: '100%' }}>
+-            <h2>{selectedRecipe.title}<Rating value={value} onChange={setValue}/></h2>
+-
+-            <Divider size="md" label="Description" labelPosition="left" styles={dividerStyle}/>
++        <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
++            <Link to={`/recipe`}>
++            <Button color="dark" mt="sm" radius="md">Powrót</Button>
++            </Link>
++            <h2 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
++                <span>
++                    {selectedRecipe.title}
++                    <Rating value={3.2} fractions={2} readOnly />
++                </span>
++                <span style={{ display: 'flex', alignItems: 'center' }}>
++                    <ThemeIcon variant="white" size="xl" color="rgba(0, 0, 0, 1)">
++                        <IconClockHour2 style={{ width: '100%', height: '100%' }} />
++                    </ThemeIcon>
++                    <p style={{ marginLeft: '5px' }}>{selectedRecipe.timeToMake} min.</p>
++                    <p style={{ marginLeft: '20px' }}></p>
++                    <Rating
++                        defaultValue={selectedRecipe.difficulty}
++                        size="xl"
++                        count={3}
++                        emptySymbol={<IconCircle />}
++                        fullSymbol={<IconCircleFilled />}
++                        readOnly
++                    />
++                </span>
++            </h2>
++            <Divider size="md" label="Opis przepisu" labelPosition="left" styles={dividerStyle} />
+             <p>{selectedRecipe.description}</p>
+-            <Divider size="md" label="Ingredients" labelPosition="left" styles={dividerStyle}/>
++            <Divider size="md" label="Składniki" labelPosition="left" styles={dividerStyle} />
+             <p>{selectedRecipe.ingredients}</p>
+-            <Divider size="md" label="Steps" labelPosition="left" styles={dividerStyle}/>
++            <Divider size="md" label="Sposób przygotowania" labelPosition="left" styles={dividerStyle} />
+             <p>{selectedRecipe.steps}</p>
+-            <p>Difficulty: {selectedRecipe.difficulty}</p>
+-            <p>Time to Make: {selectedRecipe.timeToMake} minutes</p>
+-            <p>Author ID: {selectedRecipe.authorId}</p>
++            <Divider size="md" label="Autor" labelPosition="left" styles={dividerStyle} />
++            <p>{authorName}</p>
++            <Group justify="center">
++                <Button leftSection={<IconMessageCircle2 size={14} />} variant="default" color="dark" mt="md" radius="md">
++                    Komentarze
++                </Button>
++
++                <Button leftSection={<IconPencilPlus size={14} />} color="dark" mt="md" radius="md">
++                    Dodaj komentarz
++                </Button>
++
++                <Button leftSection={<IconHeartPlus size={14} />} color="dark" mt="md" radius="md">
++                    Dodaj do ulubionych
++                </Button>
++            </Group>
++            <CommentList recipeId={selectedRecipe.id} />
+         </div>
+     );
+ };
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"3f2cee0f-77d3-474e-bb67-4d61f83d3b67\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/Header.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/Header.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/features/Routing.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/features/Routing.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/features/recipe/RecipeList.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/features/recipe/RecipeList.tsx\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"TypeScript File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"ProjectErrors\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 0\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2bBg3jttli6ypWSopFBNFcF5Y1C\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"git-widget-placeholder\": \"front\",\r\n    \"last_opened_file_path\": \"C:/Users/patip/OneDrive/Desktop/before/Inzynieria_Internetu/Projekt_ii/backend/projekt-zaliczeniowy-grabalski-jablonska\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"settings.editor.selected.configurable\": \"preferences.lookFeel\",\r\n    \"ts.external.directory.path\": \"C:\\\\Users\\\\patip\\\\OneDrive\\\\Desktop\\\\before\\\\Inzynieria_Internetu\\\\Projekt_ii\\\\projekt-zaliczeniowy-grabalski-jablonska\\\\node_modules\\\\typescript\\\\lib\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"3f2cee0f-77d3-474e-bb67-4d61f83d3b67\" name=\"Changes\" comment=\"\" />\r\n      <created>1705693688610</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1705693688610</updated>\r\n      <workItem from=\"1705693689664\" duration=\"217000\" />\r\n      <workItem from=\"1705693939403\" duration=\"608000\" />\r\n      <workItem from=\"1705694741887\" duration=\"7022000\" />\r\n      <workItem from=\"1705704413373\" duration=\"11043000\" />\r\n      <workItem from=\"1705751152048\" duration=\"6936000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 3c7cc620acda46de2fa142ff20d55cdd0bd29447)
++++ b/.idea/workspace.xml	(date 1705788305275)
+@@ -5,11 +5,11 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="3f2cee0f-77d3-474e-bb67-4d61f83d3b67" name="Changes" comment="">
++      <change afterPath="$PROJECT_DIR$/src/features/comment/Comment.tsx" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/features/comment/api/comment.ts" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/types/CommentType.ts" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/features/Routing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/Routing.tsx" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeList.tsx" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -20,6 +20,7 @@
+   <component name="FileTemplateManagerImpl">
+     <option name="RECENT_TEMPLATES">
+       <list>
++        <option value="TypeScript JSX File" />
+         <option value="TypeScript File" />
+       </list>
+     </option>
+@@ -73,7 +74,7 @@
+       <workItem from="1705693939403" duration="608000" />
+       <workItem from="1705694741887" duration="7022000" />
+       <workItem from="1705704413373" duration="11043000" />
+-      <workItem from="1705751152048" duration="6936000" />
++      <workItem from="1705751152048" duration="18406000" />
+     </task>
+     <servers />
+   </component>
+Index: src/features/comment/api/comment.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/comment/api/comment.ts b/src/features/comment/api/comment.ts
+new file mode 100644
+--- /dev/null	(date 1705786331002)
++++ b/src/features/comment/api/comment.ts	(date 1705786331002)
+@@ -0,0 +1,7 @@
++import ky from "ky";
++import { API_URL } from "../../../config";
++import { CommentType } from "../../../types/CommentType";
++
++export const listCommentsByRecipeId = async (recipeId: number) => {
++    return ky.get(`${API_URL}/comments?recipeId=${recipeId}`, { credentials: "include" }).json<CommentType[]>();
++};
+Index: src/features/comment/Comment.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/comment/Comment.tsx b/src/features/comment/Comment.tsx
+new file mode 100644
+--- /dev/null	(date 1705786540204)
++++ b/src/features/comment/Comment.tsx	(date 1705786540204)
+@@ -0,0 +1,34 @@
++import React, { useState, useEffect } from "react";
++import { CommentType } from "../../types/CommentType";
++import {listCommentsByRecipeId} from "./api/comment";
++
++interface CommentListProps {
++    recipeId: number; // Przekazuje id przepisu jako props
++}
++
++export const CommentList: React.FC<CommentListProps> = ({ recipeId }) => {
++    const [comments, setComments] = useState<CommentType[]>([]);
++
++    useEffect(() => {
++        // Pobierz komentarze na podstawie id przepisu
++        listCommentsByRecipeId(recipeId).then((response) => setComments(response));
++    }, [recipeId]);
++
++    return (
++        <div>
++            <h3>Komentarze do przepisu</h3>
++            {comments.length > 0 ? (
++                <ul>
++                    {comments.map((comment) => (
++                        <li key={comment.id}>
++                            <p>{comment.content}</p>
++                            {/* Dodaj więcej informacji o komentarzu, jeśli to konieczne */}
++                        </li>
++                    ))}
++                </ul>
++            ) : (
++                <p>Brak komentarzy do tego przepisu.</p>
++            )}
++        </div>
++    );
++};
+Index: src/types/CommentType.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/types/CommentType.ts b/src/types/CommentType.ts
+new file mode 100644
+--- /dev/null	(date 1705785939096)
++++ b/src/types/CommentType.ts	(date 1705785939096)
+@@ -0,0 +1,8 @@
++
++export interface CommentType {
++    id: number;
++    content: string;
++    createdAt: Date;
++    userId: number;
++    recipeId: number;
++}
+\ No newline at end of file

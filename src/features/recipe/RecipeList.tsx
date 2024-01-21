@@ -5,7 +5,7 @@ import { RecipeItem } from "./RecipeItem";
 import { listRecipe } from "./api/recipe";
 import {CategoryContext} from "../categories/CategoryContext";
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 9;
 
 export const RecipeList = () => {
     const [data, setData] = useState<RecipeType[]>([]);

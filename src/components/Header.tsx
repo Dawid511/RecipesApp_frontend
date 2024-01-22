@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {Button, Group} from "@mantine/core";
+import {Button, Group, Paper} from "@mantine/core";
 import {IconHeart, IconPlus} from "@tabler/icons-react";
 import React, {useContext} from "react";
 import {CategoryContext} from "../features/categories/CategoryContext";
@@ -42,5 +42,6 @@ export const Header = () => {
                 </Group>
             </Group>
         </div>
+
     )
 }

@@ -6,12 +6,14 @@ import {Button, Divider, Group, Input, MantineProvider, Paper, Rating, ThemeIcon
 import {
     IconCircle,
     IconCircleFilled,
-    IconClockHour2,
+    IconClockHour2, IconHeart,
     IconHeartPlus
 } from "@tabler/icons-react";
 import { listMe } from "../login/api/get-me";
 import {CommentList} from "../comment/Comment";
 import {CommentForm} from "../comment/CommentForm";
+import {RatingValue} from "../rating/Rating";
+import {RatingForm} from "../rating/RatingForm";
 
 export const RecipeInformation: React.FC = () => {
     const [data, setData] = useState<RecipeType[]>([]);
@@ -19,6 +21,12 @@ export const RecipeInformation: React.FC = () => {
     const [value, setValue] = useState(0);
     // Używamy hooka useParams do pobrania wartości z dynamicznej ścieżki
     const { id } = useParams<{ id: string}>();
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    const handleClick = () => {
+        // logika usun/dodaj
+        setIsFavorite((prevIsFavorite) => !prevIsFavorite);
+    };
 
     useEffect(() => {
         if (data.length === 0) {
@@ -55,14 +63,23 @@ export const RecipeInformation: React.FC = () => {
                     <Link to={`/recipe`}>
                         <Button color="dark" mt="sm" radius="md">Powrót</Button>
                     </Link>
-                    <Button leftSection={<IconHeartPlus size={14} />} color="dark" mt="md" radius="md">
-                        Dodaj do ulubionych
+                    {/*<Button leftSection={<IconHeartPlus size={14} />} color="dark" mt="md" radius="md">*/}
+                    {/*    Dodaj do ulubionych*/}
+                    {/*</Button>*/}
+                    <Button
+                        leftSection={isFavorite ? <IconHeart size={14} /> : <IconHeartPlus size={14} />}
+                        color={isFavorite ? "gold" : "dark"}
+                        mt="md"
+                        radius="md"
+                        onClick={handleClick}
+                    >
+                        {isFavorite ? "Lubisz to!" : "Dodaj do ulubionych"}
                     </Button>
                 </Group>
                 <h2 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span>
                     {selectedRecipe.title}
-                    <Rating value={3.2} fractions={2} readOnly />
+                    <RatingValue recipeId={selectedRecipe.id}/>
                 </span>
                     <Paper shadow="xl" radius="md" withBorder p="sm">
                 <span style={{ display: 'flex', alignItems: 'center' }}>
@@ -90,10 +107,11 @@ export const RecipeInformation: React.FC = () => {
                 <p>{selectedRecipe.steps}</p>
                 <Divider size="md" labelPosition="left" styles={dividerStyle} />
                 <p style={{ textAlign: "right" }}>Dodane przez {authorName}</p>
-                <Group>
-                    <p>Oceń przepis!</p>
-                    <Rating size="lg" value={value} onChange={setValue} />
-                </Group>
+                <RatingForm/>
+                {/*<Group>*/}
+                {/*    <p>Oceń przepis!</p>*/}
+                {/*    <Rating size="lg" value={value} onChange={setValue} />*/}
+                {/*</Group>*/}
                     <CommentForm/>
                 <CommentList recipeId={selectedRecipe.id} />
             </div>

@@ -77,7 +77,7 @@ export const LoginPage: FC = () => {
                         {/*           style={{marginBottom: '1rem'}} {...form.getInputProps('password')} />*/}
                         <PasswordInput required label="Hasło" placeholder="podaj hasło"
                                        style={{marginBottom: '1rem'}} {...form.getInputProps('password')} />
-                        <Button fullWidth type="submit">Zaloguj się</Button>
+                        <Button fullWidth color="dark" type="submit">Zaloguj się</Button>
 
                     </form>
                     <Divider orientation="vertical" size="lg"
@@ -93,7 +93,7 @@ export const LoginPage: FC = () => {
                                        style={{marginBottom: '1rem'}} {...form2.getInputProps('password')} />
                         <TextInput required label="Adres e-mail" placeholder="podaj email"
                                    style={{marginBottom: '1rem'}} {...form2.getInputProps('email')} />
-                        <Button fullWidth type="submit">Zarejestruj się</Button>
+                        <Button fullWidth  color="dark" type="submit">Zarejestruj się</Button>
                     </form>
                 </div>
             </Paper>

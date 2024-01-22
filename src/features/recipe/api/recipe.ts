@@ -19,3 +19,13 @@ export const listRecipeById = async (userId?: number) => {
     }
     return ky.get(`${API_URL}/recipe/user`, { searchParams: params, credentials: "include"}).json<RecipeType[]>();
 }
+
+export const listFavRecipeById = async (userId?: number) => {
+    const params = new URLSearchParams();
+
+    if (userId) {
+        params.append('userId', userId.toString());
+    }
+    return ky.get(`${API_URL}/fav`, { searchParams: params, credentials: "include"}).json<RecipeType[]>();
+}
+// popraw zeby zwracalo przepisy a nie id

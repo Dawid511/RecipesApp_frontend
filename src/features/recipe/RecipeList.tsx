@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import {SimpleGrid, Pagination, Center} from "@mantine/core";
 import { RecipeType } from "../../types/RecipeType";
 import { RecipeItem } from "./RecipeItem";
-import {listRecipe, listRecipeById} from "./api/recipe";
+import {listFavRecipeById, listRecipe, listRecipeById} from "./api/recipe";
 import {CategoryContext} from "../categories/CategoryContext";
 import {useLocation, useParams} from "react-router-dom";
 import { listMe } from "../login/api/get-me";
@@ -23,10 +23,15 @@ export const RecipeList = () => {
         if (isMyRecipes) {
             listMe().then((response: UserType) => setUserData(response));
             listRecipeById(userData?.id).then((response: RecipeType[]) => setData(response));
-        } else {
+        }
+        else if (isFav) {
+            listMe().then((response: UserType) => setUserData(response));
+            listFavRecipeById(userData?.id).then((response: RecipeType[]) => setData(response));
+        }else
+        {
             listRecipe(categoryId).then((response: RecipeType[]) => setData(response));
         }
-    }, [isMyRecipes, categoryId, userData?.id]);
+    }, [isMyRecipes, isFav, categoryId, userData?.id]);
 
     const paginatedData = data.slice(
         (activePage - 1) * ITEMS_PER_PAGE,

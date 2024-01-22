@@ -31,17 +31,20 @@ export const AppNavbar = () => {
                 childrenOffset={28}
             >
                 <NavLink
+                    component={Link} to="/recipe"
                          label="Danie wegetariańskie"
                          leftSection={<IconMeatOff size="1rem" stroke={1.5}/>}
                          onClick={() => handleCategorySelect(1)}
                 />
 
                 <NavLink
+                    component={Link} to="/recipe"
                          label="Ryby"
                          leftSection={<IconFishChristianity size="1rem" stroke={1.5}/>}
                          onClick={() => handleCategorySelect(2)}
                 />
                 <NavLink
+                    component={Link} to="/recipe"
                     label="Potrawa mięsna"
                     leftSection={<IconMeat size="1rem" stroke={1.5}/>}
                     onClick={() => handleCategorySelect(3)}
@@ -49,23 +52,27 @@ export const AppNavbar = () => {
 
             </NavLink>
             <NavLink
+                component={Link} to="/recipe"
                 label="Zupy"
                 leftSection={<IconSoup size="1rem" stroke={1.5}/>}
                 onClick={() => handleCategorySelect(4)}
             />
             <NavLink
+                component={Link} to="/recipe"
                 label="Desery"
                 leftSection={<IconMilkshake size="1rem" stroke={1.5}/>}
                 onClick={() => handleCategorySelect(5)}
             />
 
             <NavLink
+                component={Link} to="/recipe"
                 label="Pomysł na śniadanie"
                 leftSection={<IconBaguette size="1rem" stroke={1.5}/>}
                 onClick={() => handleCategorySelect(6)}
 
             />
             <NavLink
+                component={Link} to="/recipe"
                 label="Szybkie danie"
                 leftSection={<IconClockHour1 size="1rem" stroke={1.5}/>}
                 onClick={() => handleCategorySelect(7)}
@@ -78,6 +85,7 @@ export const AppNavbar = () => {
                 leftSection={<IconCandy size="1rem" stroke={1.5}/>}
             >
                 <NavLink
+                    component={Link} to="/recipe"
                     label="Na ostro"
                     leftSection={<IconPepper size="1rem" stroke={1.5}/>}
                     onClick={() => handleCategorySelect(8)}
@@ -85,12 +93,14 @@ export const AppNavbar = () => {
                 />
 
                 <NavLink
+                    component={Link} to="/recipe"
                     label="Na słono"
                     leftSection={<IconSalt size="1rem" stroke={1.5}/>}
                     onClick={() => handleCategorySelect(9)}
 
                 />
                 <NavLink
+                    component={Link} to="/recipe"
                     label="Na słodko"
                     leftSection={<IconLollipop size="1rem" stroke={1.5}/>}
                     onClick={() => handleCategorySelect(10)}

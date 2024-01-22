@@ -32,7 +32,7 @@ export const Header = () => {
                     <Button leftSection={<IconPlus size={16} />}  component={Link} to="/recipe/new" variant="outline" color="dark">
                         Dodaj przepis
                     </Button>
-                    <Button component={Link} to="/recipe" variant="outline" color="dark">
+                    <Button component={Link} to="/recipe/me" variant="outline" color="dark">
                         Moje przepisy
                     </Button>
                     <Button leftSection={<IconHeart size={16} />} component={Link} to="/recipe" variant="outline" color="dark">

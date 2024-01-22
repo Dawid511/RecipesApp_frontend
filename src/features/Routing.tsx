@@ -51,6 +51,10 @@ const privateRoutes: RouteObject[] = [
                 element: <RecipeList/>
             },
             {
+                path: '/recipe/fav',
+                element: <RecipeList/>
+            },
+            {
                 path: '/recipe/:id',
                 element: <RecipeInformation/>
             },

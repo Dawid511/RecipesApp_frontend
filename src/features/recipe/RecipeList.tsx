@@ -17,6 +17,7 @@ export const RecipeList = () => {
     const { categoryId } = useContext(CategoryContext);
     const location = useLocation();
     const isMyRecipes = location.pathname.endsWith('/me');
+    const isFav = location.pathname.endsWith('/fav');
 
     useEffect(() => {
         if (isMyRecipes) {

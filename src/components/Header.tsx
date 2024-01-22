@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {Avatar, Button, Group} from "@mantine/core";
+import {Button, Group} from "@mantine/core";
 import {IconHeart, IconPlus} from "@tabler/icons-react";
 import React, {useContext} from "react";
 import {CategoryContext} from "../features/categories/CategoryContext";
@@ -35,7 +35,7 @@ export const Header = () => {
                     <Button component={Link} to="/recipe/me" variant="outline" color="dark">
                         Moje przepisy
                     </Button>
-                    <Button leftSection={<IconHeart size={16} />} component={Link} to="/recipe" variant="outline" color="dark">
+                    <Button component={Link} to="/recipe/fav" leftSection={<IconHeart size={16} />} variant="outline" color="dark">
                         Polubione
                     </Button>
 

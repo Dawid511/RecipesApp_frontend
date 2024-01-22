@@ -33,65 +33,68 @@ export const AppNavbar = () => {
                 <NavLink
                          label="Danie wegetariańskie"
                          leftSection={<IconMeatOff size="1rem" stroke={1.5}/>}
-                         onClick={() => handleCategorySelect(2)}
+                         onClick={() => handleCategorySelect(1)}
                 />
 
-                <NavLink href="#required-for-focus"
+                <NavLink
                          label="Ryby"
                          leftSection={<IconFishChristianity size="1rem" stroke={1.5}/>}
-                         onClick={() => handleCategorySelect(3)}
+                         onClick={() => handleCategorySelect(2)}
                 />
                 <NavLink
-                    href="#required-for-focus"
                     label="Potrawa mięsna"
                     leftSection={<IconMeat size="1rem" stroke={1.5}/>}
-                    onClick={() => handleCategorySelect(4)}
+                    onClick={() => handleCategorySelect(3)}
                 />
 
             </NavLink>
             <NavLink
-                href="#required-for-focus"
                 label="Zupy"
                 leftSection={<IconSoup size="1rem" stroke={1.5}/>}
+                onClick={() => handleCategorySelect(4)}
             />
             <NavLink
-                href="#required-for-focus"
                 label="Desery"
                 leftSection={<IconMilkshake size="1rem" stroke={1.5}/>}
+                onClick={() => handleCategorySelect(5)}
             />
 
             <NavLink
-                href="#required-for-focus"
                 label="Pomysł na śniadanie"
                 leftSection={<IconBaguette size="1rem" stroke={1.5}/>}
+                onClick={() => handleCategorySelect(6)}
+
             />
             <NavLink
-                href="#required-for-focus"
                 label="Szybkie danie"
                 leftSection={<IconClockHour1 size="1rem" stroke={1.5}/>}
+                onClick={() => handleCategorySelect(7)}
+
             />
 
 
             <NavLink
-                href="#required-for-focus"
                 label="Przekąski"
                 leftSection={<IconCandy size="1rem" stroke={1.5}/>}
             >
                 <NavLink
-                    href="#required-for-focus"
                     label="Na ostro"
                     leftSection={<IconPepper size="1rem" stroke={1.5}/>}
+                    onClick={() => handleCategorySelect(8)}
+
                 />
 
                 <NavLink
-                    href="#required-for-focus"
                     label="Na słono"
                     leftSection={<IconSalt size="1rem" stroke={1.5}/>}
+                    onClick={() => handleCategorySelect(9)}
+
                 />
                 <NavLink
-                    href="#required-for-focus"
                     label="Na słodko"
                     leftSection={<IconLollipop size="1rem" stroke={1.5}/>}
+                    onClick={() => handleCategorySelect(10)}
+
                 />
             </NavLink>
 

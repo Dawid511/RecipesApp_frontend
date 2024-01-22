@@ -32,20 +32,20 @@ export const CommentList: React.FC<CommentListProps> = ({ recipeId }) => {
             {comments.length > 0 ? (
                 <ul>
                     {comments.map((comment) => (
-                            <Paper shadow="xs" radius="sm" p="md" mb="md">
-                                <div style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
-                                    <Avatar size={40} radius="sm" alt="Avatar" />
-                                    <div style={{ marginLeft: "10px" }}>
-                                        <Text size="sm">
-                                            {authorName}
-                                        </Text>
-                                        <Badge variant="outline"  color="dark" radius="sm" ml="sm">
-                                            {format(new Date(comment.createdAt), "dd.MM.yyyy")}
-                                        </Badge>
-                                    </div>
+                        <Paper shadow="xs" radius="sm" p="md" mb="md">
+                            <div style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
+                                <Avatar size={40} radius="sm" alt="Avatar" />
+                                <div style={{ marginLeft: "10px" }}>
+                                    <Text size="sm">
+                                        {authorName}
+                                    </Text>
+                                    <Badge variant="outline"  color="dark" radius="sm" ml="sm">
+                                        {format(new Date(comment.createdAt), "dd.MM.yyyy")}
+                                    </Badge>
                                 </div>
-                                <Text>{comment.content}</Text>
-                            </Paper>
+                            </div>
+                            <Text>{comment.content}</Text>
+                        </Paper>
 
                     ))}
                 </ul>
@@ -55,4 +55,3 @@ export const CommentList: React.FC<CommentListProps> = ({ recipeId }) => {
         </div>
     );
 };
-

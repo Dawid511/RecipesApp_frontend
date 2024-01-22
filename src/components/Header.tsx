@@ -1,10 +1,17 @@
 import {Link} from "react-router-dom";
 import {Avatar, Button, Group} from "@mantine/core";
 import {IconHeart, IconPlus} from "@tabler/icons-react";
-import React from "react";
+import React, {useContext} from "react";
+import {CategoryContext} from "../features/categories/CategoryContext";
 
 
 export const Header = () => {
+    const { setCategoryId } = useContext(CategoryContext);
+
+    const handleCategorySelect = () => {
+        setCategoryId(undefined);
+    };
+
     return (
         <div>
             <Group justify="space-between">
@@ -19,7 +26,7 @@ export const Header = () => {
                         }}
                     />
 
-                    <Button component={Link} to="/recipe" color="dark">
+                    <Button onClick={handleCategorySelect} component={Link} to="/recipe" color="dark">
                         Strona gotowania
                     </Button>
                     <Button leftSection={<IconPlus size={16} />}  component={Link} to="/recipe/new" variant="outline" color="dark">

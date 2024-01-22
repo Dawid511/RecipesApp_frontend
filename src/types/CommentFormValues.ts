@@ -1,7 +1,7 @@
 export type CommentFormValues = {
     id?: number;
     content: string;
-    createdAt: Date;
-    userId: number;
+    createdAt?: Date;
+    authorId: number;
     recipeId: number;
 }

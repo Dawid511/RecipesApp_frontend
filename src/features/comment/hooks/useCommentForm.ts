@@ -5,8 +5,7 @@ export const useCommentForm = () => {
     const commentForm = useForm<CommentFormValues>({
         initialValues: {
             content: "",
-            createdAt: new Date(),
-            userId: 0,
+            authorId: 0,
             recipeId: 0,
         },
 

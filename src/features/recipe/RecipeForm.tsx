@@ -26,7 +26,6 @@ interface SelectItem2 {
 export const RecipeForm = () => {
     const [data2 , setData2] = useState<UserType[]>([]);
     const form = useRecipeForm();
-
     const [data, setData] = useState<SelectItem[]>([]);
     useEffect(() => {
         listCategories().then((response: CategoryType[]) => {
@@ -40,16 +39,6 @@ export const RecipeForm = () => {
 
     let [userData, setUserData] = useState<UserType>();
 
-    // useEffect(() => {
-    //     listMe().then((user: UserType[]) => { // Expect an array here
-    //
-    //             setUserData(user[0]); // Set the user data in the state
-    //
-    //             // Now you can safely use user.id
-    //             form.setFieldValue('authorId', user[0].id);
-    //
-    //     });
-    // }, []);
 
     useEffect(() => {
         listMe().then((user) => {
@@ -120,15 +109,8 @@ export const RecipeForm = () => {
                         {...form.getInputProps('timeToMake')}
                     />
 
-                    {/*<NumberInput*/}
-                    {/*    label="ID autora"*/}
-                    {/*    description="Input description"*/}
-                    {/*    placeholder="Input placeholder"*/}
-                    {/*    {...form.getInputProps('authorId')}*/}
-                    {/*/>*/}
-
                     <MultiSelect
-                        label="Your favorite libraries"
+                        label="Kategorie przepisu"
                         placeholder="Pick value"
                         data={data}
                         clearable

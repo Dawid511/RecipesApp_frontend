@@ -39,6 +39,10 @@ const privateRoutes: RouteObject[] = [
                 element: <RecipeList/>
             },
             {
+                index: true, // Ustawia default sciezke
+                element: <Navigate to="/recipe" replace />
+            },
+            {
                 path: '/recipe/new',
                 element: <RecipeForm/>
             },

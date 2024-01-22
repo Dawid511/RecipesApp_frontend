@@ -5,17 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f2cee0f-77d3-474e-bb67-4d61f83d3b67" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/features/rating/rating.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/login/api/get-user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_01_2024_11_54__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_01_2024_11_54__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_01_2024_11_54__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_01_2024_11_54__Changes_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_01_2024_15_12__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_01_2024_15_12__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_01_2024_23_05__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_01_2024_23_05__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AppNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AppNavbar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/Routing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/Routing.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/comment/Comment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/comment/Comment.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/comment/CommentForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/comment/CommentForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/comment/api/comment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/comment/api/comment.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/comment/api/create-comment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/comment/api/create-comment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/comment/hooks/useCommentForm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/comment/hooks/useCommentForm.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeForm.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/CommentFormValues.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/CommentFormValues.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +29,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -60,7 +64,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "C:\\Users\\patip\\OneDrive\\Desktop\\before\\Inzynieria_Internetu\\Projekt_ii\\projekt-zaliczeniowy-grabalski-jablonska\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\dagra\\Desktop\\ProjektII\\front\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>

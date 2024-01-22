@@ -94,7 +94,7 @@ export const RecipeInformation: React.FC = () => {
                     <p>Oceń przepis!</p>
                     <Rating size="lg" value={value} onChange={setValue} />
                 </Group>
-                    <CommentForm recipeId={selectedRecipe.id}/>
+                    <CommentForm/>
                 <CommentList recipeId={selectedRecipe.id} />
             </div>
         </Paper>

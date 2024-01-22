@@ -48,7 +48,7 @@ export const LoginPage: FC = () => {
     const handleSubmitRegistration = async (data: RegisterFormType) => {
         try {
             await register(data.firstName, data.lastName, data.email, data.password);
-            navigate('/login');
+            //navigate('/login');
         } catch (error) {
             registerErrorNotification();
         }

@@ -1,11 +1,11 @@
-import React, {useState, useEffect, useContext} from "react";
-import {SimpleGrid, Pagination, Center} from "@mantine/core";
-import { RecipeType } from "../../types/RecipeType";
-import { RecipeItem } from "./RecipeItem";
+import React, {useContext, useEffect, useState} from "react";
+import {Center, Pagination, SimpleGrid} from "@mantine/core";
+import {RecipeType} from "../../types/RecipeType";
+import {RecipeItem} from "./RecipeItem";
 import {listFavRecipeById, listRecipe, listRecipeById} from "./api/recipe";
 import {CategoryContext} from "../categories/CategoryContext";
-import {useLocation, useParams} from "react-router-dom";
-import { listMe } from "../login/api/get-me";
+import {useLocation} from "react-router-dom";
+import {listMe} from "../login/api/get-me";
 import {UserType} from "../../types/UserType";
 
 const ITEMS_PER_PAGE = 9;
@@ -20,12 +20,11 @@ export const RecipeList = () => {
     const isFav = location.pathname.endsWith('/fav');
 
     useEffect(() => {
+        listMe().then((response: UserType) => setUserData(response));
         if (isMyRecipes) {
-            listMe().then((response: UserType) => setUserData(response));
             listRecipeById(userData?.id).then((response: RecipeType[]) => setData(response));
         }
         else if (isFav) {
-            listMe().then((response: UserType) => setUserData(response));
             listFavRecipeById(userData?.id).then((response: RecipeType[]) => setData(response));
         }else
         {

@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f2cee0f-77d3-474e-bb67-4d61f83d3b67" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/features/recipe/RecipeFavList.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/recipe/RecipeMeList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_11_21__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_11_21__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/Routing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/Routing.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/recipe/api/recipe.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/api/recipe.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +58,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "C:\\Users\\patip\\OneDrive\\Desktop\\before\\Inzynieria_Internetu\\Projekt_ii\\projekt-zaliczeniowy-grabalski-jablonska\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\uzytkownik\\Desktop\\ProjektII\\front\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -71,7 +76,7 @@
       <workItem from="1705704413373" duration="11043000" />
       <workItem from="1705839020283" duration="15215000" />
       <workItem from="1705919960495" duration="890000" />
-      <workItem from="1706005279949" duration="10725000" />
+      <workItem from="1706005279949" duration="7371000" />
     </task>
     <servers />
   </component>

@@ -1,32 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import { RecipeType } from "../../types/RecipeType";
-import { listRecipe } from "./api/recipe";
-import {
-    ActionIcon,
-    Button,
-    CopyButton,
-    Divider,
-    Group,
-    Input,
-    MantineProvider,
-    Paper,
-    Rating, rem,
-    ThemeIcon,
-    Tooltip
-} from "@mantine/core";
+import {RecipeType} from "../../types/RecipeType";
+import {listRecipe} from "./api/recipe";
+import {ActionIcon, Button, CopyButton, Divider, Group, Paper, Rating, rem, ThemeIcon, Tooltip} from "@mantine/core";
 import {
     IconCheck,
     IconCircle,
     IconCircleFilled,
-    IconClockHour2, IconCopy, IconHeart,
+    IconClockHour2,
+    IconCopy,
+    IconHeart,
     IconHeartPlus
 } from "@tabler/icons-react";
-import { listMe } from "../login/api/get-me";
+import {listMe} from "../login/api/get-me";
 import {CommentList} from "../comment/Comment";
 import {CommentForm} from "../comment/CommentForm";
 import {RatingValue} from "../rating/Rating";
 import {RatingForm} from "../rating/RatingForm";
+import {createFav} from "../fav/api/create-fav";
+import {UserType} from "../../types/UserType";
+import {FavType} from "../../types/FavType";
 
 export const RecipeInformation: React.FC = () => {
     const [data, setData] = useState<RecipeType[]>([]);
@@ -39,6 +32,22 @@ export const RecipeInformation: React.FC = () => {
     const handleClick = () => {
         // logika usun/dodaj
         setIsFavorite((prevIsFavorite) => !prevIsFavorite);
+        listMe().then((user: UserType) => {
+            // Assuming user object has an id property
+            const userId = user.id;
+
+            // Ensure you have both userId and recipeId before creating the favorite
+            if (userId && id) {
+                // Convert recipeId from string to number if necessary
+                const fav: FavType = {
+                    userId: userId,
+                    recipeId: parseInt(id, 10)
+                };
+                createFav(fav);
+            } else {
+                console.error('Missing userId or recipeId');
+            }
+        });
     };
 
     useEffect(() => {

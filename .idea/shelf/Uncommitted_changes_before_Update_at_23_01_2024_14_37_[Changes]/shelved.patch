@@ -1,0 +1,302 @@
+Index: src/features/recipe/api/recipe.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import ky from \"ky\";\r\nimport {API_URL} from \"../../../config\";\r\nimport {RecipeType} from \"../../../types/RecipeType\";\r\n\r\nexport const listRecipe = async (categoryId?: number) => {\r\n    const params = new URLSearchParams();\r\n\r\n    if (categoryId) {\r\n        params.append('categoryId', categoryId.toString());\r\n    }\r\n    return ky.get(`${API_URL}/recipe`, { searchParams: params, credentials: \"include\"}).json<RecipeType[]>();\r\n}\r\n\r\nexport const listRecipeById = async (userId?: number) => {\r\n    const params = new URLSearchParams();\r\n\r\n    if (userId) {\r\n        params.append('userId', userId.toString()); // upewnic sie czy tak mozna wizualnie\r\n    }\r\n    return ky.get(`${API_URL}/recipe/user`, { searchParams: params, credentials: \"include\"}).json<RecipeType[]>();\r\n}\r\n\r\nexport const listFavRecipeById = async (userId?: number) => {\r\n    const params = new URLSearchParams();\r\n\r\n    if (userId) {\r\n        params.append('userId', userId.toString());\r\n    }\r\n    return ky.get(`${API_URL}/recipe/fav`, { searchParams: params, credentials: \"include\"}).json<RecipeType[]>();\r\n}\r\n// popraw zeby zwracalo przepisy a nie id
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/recipe/api/recipe.ts b/src/features/recipe/api/recipe.ts
+--- a/src/features/recipe/api/recipe.ts	(revision 13ec21a1ed73f49baacc1991d923bf58ffb6a769)
++++ b/src/features/recipe/api/recipe.ts	(date 1706015718798)
+@@ -20,7 +20,7 @@
+     return ky.get(`${API_URL}/recipe/user`, { searchParams: params, credentials: "include"}).json<RecipeType[]>();
+ }
+ 
+-export const listFavRecipeById = async (userId?: number) => {
++export const listFavRecipeById = async (userId: number) => {
+     const params = new URLSearchParams();
+ 
+     if (userId) {
+Index: src/features/recipe/RecipeList.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, {useContext, useEffect, useState} from \"react\";\r\nimport {Center, Pagination, SimpleGrid} from \"@mantine/core\";\r\nimport {RecipeType} from \"../../types/RecipeType\";\r\nimport {RecipeItem} from \"./RecipeItem\";\r\nimport {listFavRecipeById, listRecipe, listRecipeById} from \"./api/recipe\";\r\nimport {CategoryContext} from \"../categories/CategoryContext\";\r\nimport {useLocation} from \"react-router-dom\";\r\nimport {listMe} from \"../login/api/get-me\";\r\nimport {UserType} from \"../../types/UserType\";\r\n\r\nconst ITEMS_PER_PAGE = 9;\r\n\r\nexport const RecipeList = () => {\r\n    const [data, setData] = useState<RecipeType[]>([]);\r\n    const [userData, setUserData] = useState<UserType>();\r\n    const [activePage, setActivePage] = useState(1);\r\n    const { categoryId } = useContext(CategoryContext);\r\n    const location = useLocation();\r\n    const isMyRecipes = location.pathname.endsWith('/me');\r\n    const isFav = location.pathname.endsWith('/fav');\r\n\r\n    useEffect(() => {\r\n        listMe().then((response: UserType) => setUserData(response));\r\n        if (isMyRecipes) {\r\n            listRecipeById(userData?.id).then((response: RecipeType[]) => setData(response));\r\n        }\r\n        else if (isFav) {\r\n            listFavRecipeById(userData?.id).then((response: RecipeType[]) => setData(response));\r\n        }else\r\n        {\r\n            listRecipe(categoryId).then((response: RecipeType[]) => setData(response));\r\n        }\r\n    }, [isMyRecipes, isFav, categoryId]);\r\n\r\n    const paginatedData = data.slice(\r\n        (activePage - 1) * ITEMS_PER_PAGE,\r\n        activePage * ITEMS_PER_PAGE\r\n    );\r\n\r\n    const handlePageChange = (page: number) => {\r\n        setActivePage(page);\r\n    };\r\n\r\n    return (\r\n        <div style={{ width: \"100%\" }}>\r\n            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>\r\n                {paginatedData.map((item) => (\r\n                    <RecipeItem key={item.id} item={item} />\r\n                ))}\r\n            </SimpleGrid>\r\n            <Center>\r\n            <Pagination\r\n                total={Math.ceil(data.length / ITEMS_PER_PAGE)}\r\n                value={activePage}\r\n                onChange={handlePageChange}\r\n                mt=\"sm\"\r\n                color=\"rgba(0, 0, 0, 1)\"\r\n                radius=\"xl\"\r\n            />\r\n            </Center>\r\n        </div>\r\n    );\r\n};\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/recipe/RecipeList.tsx b/src/features/recipe/RecipeList.tsx
+--- a/src/features/recipe/RecipeList.tsx	(revision 13ec21a1ed73f49baacc1991d923bf58ffb6a769)
++++ b/src/features/recipe/RecipeList.tsx	(date 1706016516748)
+@@ -21,16 +21,10 @@
+ 
+     useEffect(() => {
+         listMe().then((response: UserType) => setUserData(response));
+-        if (isMyRecipes) {
+-            listRecipeById(userData?.id).then((response: RecipeType[]) => setData(response));
+-        }
+-        else if (isFav) {
+-            listFavRecipeById(userData?.id).then((response: RecipeType[]) => setData(response));
+-        }else
+-        {
++
+             listRecipe(categoryId).then((response: RecipeType[]) => setData(response));
+-        }
+-    }, [isMyRecipes, isFav, categoryId]);
++
++    }, [categoryId]);
+ 
+     const paginatedData = data.slice(
+         (activePage - 1) * ITEMS_PER_PAGE,
+Index: src/features/Routing.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {Navigate, RouteObject, useRoutes} from \"react-router-dom\";\r\nimport {Layout} from \"../components/Layout\";\r\nimport {RecipeList} from \"./recipe/RecipeList\";\r\nimport {RecipeForm} from \"./recipe/RecipeForm\";\r\nimport {ErrorPage} from \"./error/ErrorPage\";\r\nimport {LoginPage} from \"./login/LoginPage\";\r\nimport {useIsLogged} from \"../hooks/useIsLogged\";\r\nimport {RecipeInformation} from \"./recipe/RecipeInformation\";\r\n\r\n\r\nconst publicRoutes: RouteObject[] = [\r\n    {\r\n        path: '/',\r\n        element: <Layout/>,\r\n        children: [\r\n            {\r\n                path: '/login',\r\n                element: <LoginPage/>\r\n            },\r\n            {\r\n                index: true, // Ustawia default sciezke\r\n                element: <Navigate to=\"/login\" replace />\r\n            },\r\n            {\r\n                path: '*',\r\n                element: <Navigate to='/login' replace/>\r\n            }\r\n        ]\r\n\r\n    }\r\n];\r\nconst privateRoutes: RouteObject[] = [\r\n    {\r\n        path: '/',\r\n        element: <Layout/>,\r\n        children: [\r\n            {\r\n                path: '/recipe',\r\n                element: <RecipeList/>\r\n            },\r\n            {\r\n                index: true, // Ustawia default sciezke\r\n                element: <Navigate to=\"/recipe\" replace />\r\n            },\r\n            {\r\n                path: '/recipe/new',\r\n                element: <RecipeForm/>\r\n            },\r\n            {\r\n                path: '/recipe/me',\r\n                element: <RecipeList/>\r\n            },\r\n            {\r\n                path: '/recipe/fav',\r\n                element: <RecipeList/>\r\n            },\r\n            {\r\n                path: '/recipe/:id',\r\n                element: <RecipeInformation/>\r\n            },\r\n            {\r\n                path: '*',\r\n                element: <ErrorPage/>\r\n            }\r\n        ]\r\n    }\r\n]\r\n\r\nexport const Routing = () => {\r\n    const isLogged = useIsLogged();\r\n    const routes = isLogged ? privateRoutes : publicRoutes;\r\n    return useRoutes(routes);\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/Routing.tsx b/src/features/Routing.tsx
+--- a/src/features/Routing.tsx	(revision 13ec21a1ed73f49baacc1991d923bf58ffb6a769)
++++ b/src/features/Routing.tsx	(date 1706015482074)
+@@ -6,6 +6,8 @@
+ import {LoginPage} from "./login/LoginPage";
+ import {useIsLogged} from "../hooks/useIsLogged";
+ import {RecipeInformation} from "./recipe/RecipeInformation";
++import {RecipeFavList} from "./recipe/RecipeFavList";
++import {RecipeMeList} from "./recipe/RecipeMeList";
+ 
+ 
+ const publicRoutes: RouteObject[] = [
+@@ -48,11 +50,11 @@
+             },
+             {
+                 path: '/recipe/me',
+-                element: <RecipeList/>
++                element: <RecipeMeList/>
+             },
+             {
+                 path: '/recipe/fav',
+-                element: <RecipeList/>
++                element: <RecipeFavList/>
+             },
+             {
+                 path: '/recipe/:id',
+Index: src/features/recipe/RecipeFavList.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/recipe/RecipeFavList.tsx b/src/features/recipe/RecipeFavList.tsx
+new file mode 100644
+--- /dev/null	(date 1706016371081)
++++ b/src/features/recipe/RecipeFavList.tsx	(date 1706016371081)
+@@ -0,0 +1,60 @@
++import React, {useContext, useEffect, useState} from "react";
++import {Center, Pagination, SimpleGrid} from "@mantine/core";
++import {RecipeType} from "../../types/RecipeType";
++import {RecipeItem} from "./RecipeItem";
++import {listFavRecipeById, listRecipe, listRecipeById} from "./api/recipe";
++import {CategoryContext} from "../categories/CategoryContext";
++import {useLocation} from "react-router-dom";
++import {listMe} from "../login/api/get-me";
++import {UserType} from "../../types/UserType";
++
++const ITEMS_PER_PAGE = 9;
++
++export const RecipeFavList = () => {
++    const [data, setData] = useState<RecipeType[]>([]);
++    const [userData, setUserData] = useState<UserType>();
++    const [activePage, setActivePage] = useState(1);
++    const { categoryId } = useContext(CategoryContext);
++    const location = useLocation();
++    const isMyRecipes = location.pathname.endsWith('/me');
++    const isFav = location.pathname.endsWith('/fav');
++
++    useEffect(() => {
++        listMe().then((response: UserType) => {
++            if (!response || response.id === undefined) {
++                throw new Error('userData is required but was not provided');
++            }
++            setUserData(response);
++            listFavRecipeById(response.id).then((response: RecipeType[]) => setData(response));
++        });
++    }, [location]);
++
++    const paginatedData = data.slice(
++        (activePage - 1) * ITEMS_PER_PAGE,
++        activePage * ITEMS_PER_PAGE
++    );
++
++    const handlePageChange = (page: number) => {
++        setActivePage(page);
++    };
++
++    return (
++        <div style={{ width: "100%" }}>
++            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
++                {paginatedData.map((item) => (
++                    <RecipeItem key={item.id} item={item} />
++                ))}
++            </SimpleGrid>
++            <Center>
++                <Pagination
++                    total={Math.ceil(data.length / ITEMS_PER_PAGE)}
++                    value={activePage}
++                    onChange={handlePageChange}
++                    mt="sm"
++                    color="rgba(0, 0, 0, 1)"
++                    radius="xl"
++                />
++            </Center>
++        </div>
++    );
++};
+Index: src/features/recipe/RecipeMeList.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/recipe/RecipeMeList.tsx b/src/features/recipe/RecipeMeList.tsx
+new file mode 100644
+--- /dev/null	(date 1706015482078)
++++ b/src/features/recipe/RecipeMeList.tsx	(date 1706015482078)
+@@ -0,0 +1,49 @@
++import React, {useEffect, useState} from "react";
++import {Center, Pagination, SimpleGrid} from "@mantine/core";
++import {RecipeType} from "../../types/RecipeType";
++import {RecipeItem} from "./RecipeItem";
++import {listRecipeById} from "./api/recipe";
++import {listMe} from "../login/api/get-me";
++import {UserType} from "../../types/UserType";
++
++const ITEMS_PER_PAGE = 9;
++
++export const RecipeMeList = () => {
++    const [data, setData] = useState<RecipeType[]>([]);
++    const [userData, setUserData] = useState<UserType>();
++    const [activePage, setActivePage] = useState(1);
++
++    useEffect(() => {
++        listMe().then((response: UserType) => setUserData(response));
++        listRecipeById(userData?.id).then((response: RecipeType[]) => setData(response));
++    }, []);
++
++    const paginatedData = data.slice(
++        (activePage - 1) * ITEMS_PER_PAGE,
++        activePage * ITEMS_PER_PAGE
++    );
++
++    const handlePageChange = (page: number) => {
++        setActivePage(page);
++    };
++
++    return (
++        <div style={{ width: "100%" }}>
++            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
++                {paginatedData.map((item) => (
++                    <RecipeItem key={item.id} item={item} />
++                ))}
++            </SimpleGrid>
++            <Center>
++                <Pagination
++                    total={Math.ceil(data.length / ITEMS_PER_PAGE)}
++                    value={activePage}
++                    onChange={handlePageChange}
++                    mt="sm"
++                    color="rgba(0, 0, 0, 1)"
++                    radius="xl"
++                />
++            </Center>
++        </div>
++    );
++};
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"3f2cee0f-77d3-474e-bb67-4d61f83d3b67\" name=\"Changes\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/src/features/comment/api/delete-comment.ts\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/features/recipe/api/delete-recipe.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_01_10__Changes_.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_01_10__Changes_.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/AppNavbar.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/AppNavbar.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/Header.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/Header.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/Layout.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/Layout.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/features/comment/Comment.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/features/comment/Comment.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"TypeScript JSX File\" />\r\n        <option value=\"TypeScript File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 0\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2bBg3jttli6ypWSopFBNFcF5Y1C\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"git-widget-placeholder\": \"front\",\r\n    \"last_opened_file_path\": \"C:/Users/patip/OneDrive/Desktop/before/Inzynieria_Internetu/Projekt_ii/backend/projekt-zaliczeniowy-grabalski-jablonska\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"settings.editor.selected.configurable\": \"preferences.lookFeel\",\r\n    \"ts.external.directory.path\": \"C:\\\\Users\\\\patip\\\\OneDrive\\\\Desktop\\\\before\\\\Inzynieria_Internetu\\\\Projekt_ii\\\\projekt-zaliczeniowy-grabalski-jablonska\\\\node_modules\\\\typescript\\\\lib\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"3f2cee0f-77d3-474e-bb67-4d61f83d3b67\" name=\"Changes\" comment=\"\" />\r\n      <created>1705693688610</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1705693688610</updated>\r\n      <workItem from=\"1705693689664\" duration=\"217000\" />\r\n      <workItem from=\"1705693939403\" duration=\"608000\" />\r\n      <workItem from=\"1705694741887\" duration=\"7022000\" />\r\n      <workItem from=\"1705704413373\" duration=\"11043000\" />\r\n      <workItem from=\"1705839020283\" duration=\"15215000\" />\r\n      <workItem from=\"1705919960495\" duration=\"890000\" />\r\n      <workItem from=\"1706005279949\" duration=\"7371000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 13ec21a1ed73f49baacc1991d923bf58ffb6a769)
++++ b/.idea/workspace.xml	(date 1706016419802)
+@@ -5,16 +5,13 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="3f2cee0f-77d3-474e-bb67-4d61f83d3b67" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/src/features/comment/api/delete-comment.ts" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/features/recipe/api/delete-recipe.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_01_10__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_01_10__Changes_.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/features/recipe/RecipeFavList.tsx" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/features/recipe/RecipeMeList.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_11_21__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_11_21__Changes_.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/AppNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AppNavbar.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/Layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/features/comment/Comment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/comment/Comment.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/features/Routing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/Routing.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeList.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/features/recipe/api/recipe.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/api/recipe.ts" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -24,8 +21,8 @@
+   <component name="FileTemplateManagerImpl">
+     <option name="RECENT_TEMPLATES">
+       <list>
+-        <option value="TypeScript JSX File" />
+         <option value="TypeScript File" />
++        <option value="TypeScript JSX File" />
+       </list>
+     </option>
+   </component>
+@@ -46,23 +43,23 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "WebServerToolWindowFactoryState": "false",
+-    "git-widget-placeholder": "front",
+-    "last_opened_file_path": "C:/Users/patip/OneDrive/Desktop/before/Inzynieria_Internetu/Projekt_ii/backend/projekt-zaliczeniowy-grabalski-jablonska",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "settings.editor.selected.configurable": "preferences.lookFeel",
+-    "ts.external.directory.path": "C:\\Users\\patip\\OneDrive\\Desktop\\before\\Inzynieria_Internetu\\Projekt_ii\\projekt-zaliczeniowy-grabalski-jablonska\\node_modules\\typescript\\lib",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;front&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/patip/OneDrive/Desktop/before/Inzynieria_Internetu/Projekt_ii/backend/projekt-zaliczeniowy-grabalski-jablonska&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
++    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\uzytkownik\\Desktop\\ProjektII\\front\\node_modules\\typescript\\lib&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+@@ -77,7 +74,6 @@
+       <workItem from="1705704413373" duration="11043000" />
+       <workItem from="1705839020283" duration="15215000" />
+       <workItem from="1705919960495" duration="890000" />
+-      <workItem from="1706005279949" duration="7371000" />
+     </task>
+     <servers />
+   </component>

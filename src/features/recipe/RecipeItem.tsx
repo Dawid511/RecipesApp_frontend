@@ -7,9 +7,10 @@ import {listMe} from "../login/api/get-me";
 
 interface RecipeItemProps {
     item: RecipeType;
+    imageSrc: string;
 }
 
-export const RecipeItem: FC<RecipeItemProps> = memo(({ item }) => {
+export const RecipeItem: FC<RecipeItemProps> = memo(({ item, imageSrc }) => {
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
     const [loggedInUserId, setLoggedInUserId] = useState<number | null>(null);
     const navigate = useNavigate();
@@ -39,7 +40,7 @@ export const RecipeItem: FC<RecipeItemProps> = memo(({ item }) => {
                 <Card.Section>
                     <Image
                         radius="md"
-                        src={"./image-from-rawpixel-id-449412-jpeg.jpg"}
+                        src={imageSrc}
                     />
                 </Card.Section>
 

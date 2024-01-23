@@ -15,12 +15,12 @@ export const listRecipeById = async (userId?: number) => {
     const params = new URLSearchParams();
 
     if (userId) {
-        params.append('userId', userId.toString()); // upewnic sie czy tak mozna wizualnie
+        params.append('authorId', userId.toString()); // upewnic sie czy tak mozna wizualnie
     }
     return ky.get(`${API_URL}/recipe/user`, { searchParams: params, credentials: "include"}).json<RecipeType[]>();
 }
 
-export const listFavRecipeById = async (userId?: number) => {
+export const listFavRecipeById = async (userId: number) => {
     const params = new URLSearchParams();
 
     if (userId) {
@@ -28,4 +28,3 @@ export const listFavRecipeById = async (userId?: number) => {
     }
     return ky.get(`${API_URL}/recipe/fav`, { searchParams: params, credentials: "include"}).json<RecipeType[]>();
 }
-// popraw zeby zwracalo przepisy a nie id

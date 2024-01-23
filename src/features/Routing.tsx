@@ -6,6 +6,8 @@ import {ErrorPage} from "./error/ErrorPage";
 import {LoginPage} from "./login/LoginPage";
 import {useIsLogged} from "../hooks/useIsLogged";
 import {RecipeInformation} from "./recipe/RecipeInformation";
+import {RecipeFavList} from "./recipe/RecipeFavList";
+import {RecipeMeList} from "./recipe/RecipeMeList";
 
 
 const publicRoutes: RouteObject[] = [
@@ -48,11 +50,11 @@ const privateRoutes: RouteObject[] = [
             },
             {
                 path: '/recipe/me',
-                element: <RecipeList/>
+                element: <RecipeMeList/>
             },
             {
                 path: '/recipe/fav',
-                element: <RecipeList/>
+                element: <RecipeFavList/>
             },
             {
                 path: '/recipe/:id',

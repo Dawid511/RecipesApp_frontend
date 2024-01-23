@@ -30,7 +30,7 @@ export const RecipeList = () => {
         {
             listRecipe(categoryId).then((response: RecipeType[]) => setData(response));
         }
-    }, [isMyRecipes, isFav, categoryId, userData?.id]);
+    }, [isMyRecipes, isFav, categoryId]);
 
     const paginatedData = data.slice(
         (activePage - 1) * ITEMS_PER_PAGE,

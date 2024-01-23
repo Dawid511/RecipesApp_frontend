@@ -4,7 +4,6 @@ import {IconHeart, IconPlus} from "@tabler/icons-react";
 import React, {useContext} from "react";
 import {CategoryContext} from "../features/categories/CategoryContext";
 
-
 export const Header = () => {
     const { setCategoryId } = useContext(CategoryContext);
 
@@ -14,12 +13,13 @@ export const Header = () => {
 
     return (
         <div>
-            <Group justify="space-between">
+            <Group justify="space-between" >
                 <Group>
                     <img
                         src={process.env.PUBLIC_URL + "PyszneInspiracje.jpg"}
                         alt="Pyszne Inspiracje Image"
                         style={{
+                            marginLeft: "50px",
                             borderRadius: "10px",
                             height: "120px",
                             width: "auto",
@@ -29,7 +29,7 @@ export const Header = () => {
                     <Button onClick={handleCategorySelect} component={Link} to="/recipe" color="dark">
                         Strona gotowania
                     </Button>
-                    <Button leftSection={<IconPlus size={16} />}  component={Link} to="/recipe/new" variant="outline" color="dark">
+                    <Button leftSection={<IconPlus size={16} />} component={Link} to="/recipe/new" variant="outline" color="dark">
                         Dodaj przepis
                     </Button>
                     <Button component={Link} to="/recipe/me" variant="outline" color="dark">

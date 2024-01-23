@@ -1,0 +1,111 @@
+Index: src/components/Header.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {Link} from \"react-router-dom\";\r\nimport {Button, Group} from \"@mantine/core\";\r\nimport {IconHeart, IconPlus} from \"@tabler/icons-react\";\r\nimport React, {useContext} from \"react\";\r\nimport {CategoryContext} from \"../features/categories/CategoryContext\";\r\n\r\n\r\nexport const Header = () => {\r\n    const { setCategoryId } = useContext(CategoryContext);\r\n\r\n    const handleCategorySelect = () => {\r\n        setCategoryId(undefined);\r\n    };\r\n\r\n    return (\r\n        <div>\r\n            <Group justify=\"space-between\">\r\n                <Group>\r\n                    <img\r\n                        src={process.env.PUBLIC_URL + \"PyszneInspiracje.jpg\"}\r\n                        alt=\"Pyszne Inspiracje Image\"\r\n                        style={{\r\n                            borderRadius: \"10px\",\r\n                            height: \"120px\",\r\n                            width: \"auto\",\r\n                        }}\r\n                    />\r\n\r\n                    <Button onClick={handleCategorySelect} component={Link} to=\"/recipe\" color=\"dark\">\r\n                        Strona gotowania\r\n                    </Button>\r\n                    <Button leftSection={<IconPlus size={16} />}  component={Link} to=\"/recipe/new\" variant=\"outline\" color=\"dark\">\r\n                        Dodaj przepis\r\n                    </Button>\r\n                    <Button component={Link} to=\"/recipe/me\" variant=\"outline\" color=\"dark\">\r\n                        Moje przepisy\r\n                    </Button>\r\n                    <Button component={Link} to=\"/recipe/fav\" leftSection={<IconHeart size={16} />} variant=\"outline\" color=\"dark\">\r\n                        Polubione\r\n                    </Button>\r\n\r\n                </Group>\r\n            </Group>\r\n        </div>\r\n\r\n    )\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Header.tsx b/src/components/Header.tsx
+--- a/src/components/Header.tsx	(revision ff3defe835c0cfea9353f0baf7a4f91289a99acd)
++++ b/src/components/Header.tsx	(date 1705970222624)
+@@ -4,7 +4,6 @@
+ import React, {useContext} from "react";
+ import {CategoryContext} from "../features/categories/CategoryContext";
+ 
+-
+ export const Header = () => {
+     const { setCategoryId } = useContext(CategoryContext);
+ 
+@@ -14,12 +13,13 @@
+ 
+     return (
+         <div>
+-            <Group justify="space-between">
++            <Group justify="space-between" >
+                 <Group>
+                     <img
+                         src={process.env.PUBLIC_URL + "PyszneInspiracje.jpg"}
+                         alt="Pyszne Inspiracje Image"
+                         style={{
++                            marginLeft: "50px",
+                             borderRadius: "10px",
+                             height: "120px",
+                             width: "auto",
+@@ -29,7 +29,7 @@
+                     <Button onClick={handleCategorySelect} component={Link} to="/recipe" color="dark">
+                         Strona gotowania
+                     </Button>
+-                    <Button leftSection={<IconPlus size={16} />}  component={Link} to="/recipe/new" variant="outline" color="dark">
++                    <Button leftSection={<IconPlus size={16} />} component={Link} to="/recipe/new" variant="outline" color="dark">
+                         Dodaj przepis
+                     </Button>
+                     <Button component={Link} to="/recipe/me" variant="outline" color="dark">
+Index: src/components/Layout.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {Outlet} from \"react-router-dom\";\r\nimport {Header} from \"./Header\";\r\nimport {AppShell, Burger, Group} from \"@mantine/core\";\r\nimport {useDisclosure} from \"@mantine/hooks\";\r\nimport {AppNavbar} from \"./AppNavbar\";\r\nimport {Footer} from \"./Footer\";\r\n\r\nexport const Layout = () => {\r\n    const [opened, {toggle}] = useDisclosure();\r\n    return (\r\n        <div>\r\n            <AppShell\r\n                header={{height: 130}}\r\n                footer={{height: 50 }}\r\n                navbar={{width: 300, breakpoint: 'sm', collapsed: {mobile: !opened}}}\r\n                padding=\"md\"\r\n            >\r\n\r\n                <AppShell.Header>\r\n                    <Group h=\"100%\" px=\"md\">\r\n                        <Burger opened={opened} onClick={toggle} hiddenFrom=\"sm\" size=\"sm\"/>\r\n                        <Header/>\r\n                    </Group>\r\n                </AppShell.Header>\r\n                <AppShell.Navbar p=\"md\">\r\n                    <AppNavbar/>\r\n                </AppShell.Navbar>\r\n                <AppShell.Main>\r\n                    <Outlet/>\r\n                </AppShell.Main>\r\n            </AppShell>\r\n            <Footer />\r\n        </div>\r\n    )\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Layout.tsx b/src/components/Layout.tsx
+--- a/src/components/Layout.tsx	(revision ff3defe835c0cfea9353f0baf7a4f91289a99acd)
++++ b/src/components/Layout.tsx	(date 1705969406714)
+@@ -10,7 +10,7 @@
+     return (
+         <div>
+             <AppShell
+-                header={{height: 130}}
++                header={{height: 140}}
+                 footer={{height: 50 }}
+                 navbar={{width: 300, breakpoint: 'sm', collapsed: {mobile: !opened}}}
+                 padding="md"
+Index: src/components/AppNavbar.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {NavLink} from \"@mantine/core\";\r\nimport {\r\n    IconBaguette,\r\n    IconCandy,\r\n    IconClockHour1,\r\n    IconFishChristianity,\r\n    IconLollipop,\r\n    IconMeat,\r\n    IconMeatOff,\r\n    IconMilkshake,\r\n    IconPepper,\r\n    IconSalt,\r\n    IconSoup,\r\n    IconToolsKitchen2\r\n} from \"@tabler/icons-react\";\r\nimport React, {useContext} from \"react\";\r\nimport {CategoryContext} from \"../features/categories/CategoryContext\";\r\nimport {Link} from \"react-router-dom\";\r\n\r\nexport const AppNavbar = () => {\r\n    const { setCategoryId } = useContext(CategoryContext);\r\n\r\n    const handleCategorySelect = (id:number) => {\r\n        setCategoryId(id);\r\n    };\r\n\r\n    return (<>\r\n            <NavLink\r\n                label=\"Obiady\"\r\n                leftSection={<IconToolsKitchen2 size=\"1rem\" stroke={1.5}/>}\r\n                childrenOffset={28}\r\n            >\r\n                <NavLink\r\n                    component={Link} to=\"/recipe\"\r\n                         label=\"Danie wegetariańskie\"\r\n                         leftSection={<IconMeatOff size=\"1rem\" stroke={1.5}/>}\r\n                         onClick={() => handleCategorySelect(1)}\r\n                />\r\n\r\n                <NavLink\r\n                    component={Link} to=\"/recipe\"\r\n                         label=\"Ryby\"\r\n                         leftSection={<IconFishChristianity size=\"1rem\" stroke={1.5}/>}\r\n                         onClick={() => handleCategorySelect(2)}\r\n                />\r\n                <NavLink\r\n                    component={Link} to=\"/recipe\"\r\n                    label=\"Potrawa mięsna\"\r\n                    leftSection={<IconMeat size=\"1rem\" stroke={1.5}/>}\r\n                    onClick={() => handleCategorySelect(3)}\r\n                />\r\n\r\n            </NavLink>\r\n            <NavLink\r\n                component={Link} to=\"/recipe\"\r\n                label=\"Zupy\"\r\n                leftSection={<IconSoup size=\"1rem\" stroke={1.5}/>}\r\n                onClick={() => handleCategorySelect(4)}\r\n            />\r\n            <NavLink\r\n                component={Link} to=\"/recipe\"\r\n                label=\"Desery\"\r\n                leftSection={<IconMilkshake size=\"1rem\" stroke={1.5}/>}\r\n                onClick={() => handleCategorySelect(5)}\r\n            />\r\n\r\n            <NavLink\r\n                component={Link} to=\"/recipe\"\r\n                label=\"Pomysł na śniadanie\"\r\n                leftSection={<IconBaguette size=\"1rem\" stroke={1.5}/>}\r\n                onClick={() => handleCategorySelect(6)}\r\n\r\n            />\r\n            <NavLink\r\n                component={Link} to=\"/recipe\"\r\n                label=\"Szybkie danie\"\r\n                leftSection={<IconClockHour1 size=\"1rem\" stroke={1.5}/>}\r\n                onClick={() => handleCategorySelect(7)}\r\n\r\n            />\r\n\r\n\r\n            <NavLink\r\n                label=\"Przekąski\"\r\n                leftSection={<IconCandy size=\"1rem\" stroke={1.5}/>}\r\n            >\r\n                <NavLink\r\n                    component={Link} to=\"/recipe\"\r\n                    label=\"Na ostro\"\r\n                    leftSection={<IconPepper size=\"1rem\" stroke={1.5}/>}\r\n                    onClick={() => handleCategorySelect(8)}\r\n\r\n                />\r\n\r\n                <NavLink\r\n                    component={Link} to=\"/recipe\"\r\n                    label=\"Na słono\"\r\n                    leftSection={<IconSalt size=\"1rem\" stroke={1.5}/>}\r\n                    onClick={() => handleCategorySelect(9)}\r\n\r\n                />\r\n                <NavLink\r\n                    component={Link} to=\"/recipe\"\r\n                    label=\"Na słodko\"\r\n                    leftSection={<IconLollipop size=\"1rem\" stroke={1.5}/>}\r\n                    onClick={() => handleCategorySelect(10)}\r\n\r\n                />\r\n            </NavLink>\r\n\r\n        </>\r\n    );\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/AppNavbar.tsx b/src/components/AppNavbar.tsx
+--- a/src/components/AppNavbar.tsx	(revision ff3defe835c0cfea9353f0baf7a4f91289a99acd)
++++ b/src/components/AppNavbar.tsx	(date 1705971833833)
+@@ -25,7 +25,7 @@
+     };
+ 
+     return (<>
+-            <NavLink
++            <NavLink style={{ background: 'lightgoldenrodyellow' }}
+                 label="Obiady"
+                 leftSection={<IconToolsKitchen2 size="1rem" stroke={1.5}/>}
+                 childrenOffset={28}
+@@ -80,7 +80,7 @@
+             />
+ 
+ 
+-            <NavLink
++            <NavLink style={{ background: 'lightgoldenrodyellow' }}
+                 label="Przekąski"
+                 leftSection={<IconCandy size="1rem" stroke={1.5}/>}
+             >
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"3f2cee0f-77d3-474e-bb67-4d61f83d3b67\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_01_2024_14_03__Changes_.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_01_2024_14_03__Changes_.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_01_2024_18_55__Changes_.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_01_2024_18_55__Changes_.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/Footer.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/Footer.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/Header.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/Header.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/Layout.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/Layout.tsx\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"TypeScript JSX File\" />\r\n        <option value=\"TypeScript File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 0\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2bBg3jttli6ypWSopFBNFcF5Y1C\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"git-widget-placeholder\": \"front\",\r\n    \"last_opened_file_path\": \"C:/Users/patip/OneDrive/Desktop/before/Inzynieria_Internetu/Projekt_ii/backend/projekt-zaliczeniowy-grabalski-jablonska\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"settings.editor.selected.configurable\": \"preferences.lookFeel\",\r\n    \"ts.external.directory.path\": \"C:\\\\Users\\\\patip\\\\OneDrive\\\\Desktop\\\\before\\\\Inzynieria_Internetu\\\\Projekt_ii\\\\projekt-zaliczeniowy-grabalski-jablonska\\\\node_modules\\\\typescript\\\\lib\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"3f2cee0f-77d3-474e-bb67-4d61f83d3b67\" name=\"Changes\" comment=\"\" />\r\n      <created>1705693688610</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1705693688610</updated>\r\n      <workItem from=\"1705693689664\" duration=\"217000\" />\r\n      <workItem from=\"1705693939403\" duration=\"608000\" />\r\n      <workItem from=\"1705694741887\" duration=\"7022000\" />\r\n      <workItem from=\"1705704413373\" duration=\"11043000\" />\r\n      <workItem from=\"1705839020283\" duration=\"15215000\" />\r\n      <workItem from=\"1705919960495\" duration=\"890000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision ff3defe835c0cfea9353f0baf7a4f91289a99acd)
++++ b/.idea/workspace.xml	(date 1705971017424)
+@@ -5,10 +5,8 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="3f2cee0f-77d3-474e-bb67-4d61f83d3b67" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_01_2024_14_03__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_01_2024_14_03__Changes_.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_01_2024_18_55__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_01_2024_18_55__Changes_.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Footer.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/components/AppNavbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AppNavbar.tsx" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.tsx" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/components/Layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout.tsx" afterDir="false" />
+     </list>

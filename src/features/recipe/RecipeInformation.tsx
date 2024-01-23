@@ -2,11 +2,24 @@ import React, { useEffect, useState } from "react";
 import {Link, useParams} from "react-router-dom";
 import { RecipeType } from "../../types/RecipeType";
 import { listRecipe } from "./api/recipe";
-import {Button, Divider, Group, Input, MantineProvider, Paper, Rating, ThemeIcon} from "@mantine/core";
 import {
+    ActionIcon,
+    Button,
+    CopyButton,
+    Divider,
+    Group,
+    Input,
+    MantineProvider,
+    Paper,
+    Rating, rem,
+    ThemeIcon,
+    Tooltip
+} from "@mantine/core";
+import {
+    IconCheck,
     IconCircle,
     IconCircleFilled,
-    IconClockHour2, IconHeart,
+    IconClockHour2, IconCopy, IconHeart,
     IconHeartPlus
 } from "@tabler/icons-react";
 import { listMe } from "../login/api/get-me";
@@ -63,9 +76,6 @@ export const RecipeInformation: React.FC = () => {
                     <Link to={`/recipe`}>
                         <Button color="dark" mt="sm" radius="md">Powrót</Button>
                     </Link>
-                    {/*<Button leftSection={<IconHeartPlus size={14} />} color="dark" mt="md" radius="md">*/}
-                    {/*    Dodaj do ulubionych*/}
-                    {/*</Button>*/}
                     <Button
                         leftSection={isFavorite ? <IconHeart size={14} /> : <IconHeartPlus size={14} />}
                         color={isFavorite ? "gold" : "dark"}
@@ -101,17 +111,37 @@ export const RecipeInformation: React.FC = () => {
                 </h2>
                 <Divider size="md" label="Opis przepisu" labelPosition="left" styles={dividerStyle} />
                 <p>{selectedRecipe.description}</p>
-                <Divider size="md" label="Składniki" labelPosition="left" styles={dividerStyle} />
-                <p>{selectedRecipe.ingredients}</p>
+                <Divider size="md" label="Składniki" labelPosition="left" styles={dividerStyle}/>
+                <p>{selectedRecipe.ingredients}
+                <CopyButton value={selectedRecipe.ingredients} timeout={2000} >
+                    {({ copied, copy }) => (
+                        <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                            <ActionIcon color={copied ? 'black' : 'gray'} variant="subtle" onClick={copy}>
+                                {copied ? (
+                                    <IconCheck style={{ width: rem(16) }} />
+                                ) : (
+                                    <IconCopy style={{ width: rem(16) }} />
+                                )}
+                            </ActionIcon>
+                        </Tooltip>
+                    )}</CopyButton></p>
                 <Divider size="md" label="Sposób przygotowania" labelPosition="left" styles={dividerStyle} />
-                <p>{selectedRecipe.steps}</p>
+                <p>{selectedRecipe.steps}
+                    <CopyButton value={selectedRecipe.steps} timeout={2000} >
+                        {({ copied, copy }) => (
+                            <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                                <ActionIcon color={copied ? 'black' : 'gray'} variant="subtle" onClick={copy}>
+                                    {copied ? (
+                                        <IconCheck style={{ width: rem(16) }} />
+                                    ) : (
+                                        <IconCopy style={{ width: rem(16) }} />
+                                    )}
+                                </ActionIcon>
+                            </Tooltip>
+                        )}</CopyButton></p>
                 <Divider size="md" labelPosition="left" styles={dividerStyle} />
                 <p style={{ textAlign: "right" }}>Dodane przez {authorName}</p>
                 <RatingForm/>
-                {/*<Group>*/}
-                {/*    <p>Oceń przepis!</p>*/}
-                {/*    <Rating size="lg" value={value} onChange={setValue} />*/}
-                {/*</Group>*/}
                     <CommentForm/>
                 <CommentList recipeId={selectedRecipe.id} />
             </div>

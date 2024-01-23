@@ -10,7 +10,7 @@ export const Layout = () => {
     return (
         <div>
             <AppShell
-                header={{height: 130}}
+                header={{height: 140}}
                 footer={{height: 50 }}
                 navbar={{width: 300, breakpoint: 'sm', collapsed: {mobile: !opened}}}
                 padding="md"

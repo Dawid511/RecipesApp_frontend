@@ -25,7 +25,7 @@ export const AppNavbar = () => {
     };
 
     return (<>
-            <NavLink
+            <NavLink style={{ background: 'lightgoldenrodyellow' }}
                 label="Obiady"
                 leftSection={<IconToolsKitchen2 size="1rem" stroke={1.5}/>}
                 childrenOffset={28}
@@ -80,7 +80,7 @@ export const AppNavbar = () => {
             />
 
 
-            <NavLink
+            <NavLink style={{ background: 'lightgoldenrodyellow' }}
                 label="Przekąski"
                 leftSection={<IconCandy size="1rem" stroke={1.5}/>}
             >

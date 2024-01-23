@@ -71,13 +71,13 @@ export const LoginPage: FC = () => {
                 }}>
                     <form onSubmit={form.onSubmit(handleSubmit)} style={{flex: 1, padding: '20px'}}>
                         <Title order={3}>Logowanie</Title>
-                        <TextInput required label="adres e-mail" placeholder="Twój e-mail"
+                        <TextInput data-cy="authform-email" required label="adres e-mail" placeholder="Twój e-mail"
                                    style={{marginBottom: '1rem'}} {...form.getInputProps('email')} />
                         {/*<TextInput required label="Hasło" placeholder="Twoje hasło"*/}
                         {/*           style={{marginBottom: '1rem'}} {...form.getInputProps('password')} />*/}
-                        <PasswordInput required label="Hasło" placeholder="podaj hasło"
+                        <PasswordInput data-cy="authform-password" required label="Hasło" placeholder="podaj hasło"
                                        style={{marginBottom: '1rem'}} {...form.getInputProps('password')} />
-                        <Button fullWidth color="dark" type="submit">Zaloguj się</Button>
+                        <Button data-cy="authform-submit" fullWidth color="dark" type="submit">Zaloguj się</Button>
 
                     </form>
                     <Divider orientation="vertical" size="lg"

@@ -47,6 +47,7 @@ export const RecipeItem: FC<RecipeItemProps> = memo(({ item, imageSrc }) => {
                 <Group justify="space-between" mt="md" mb="xs">
                     <Title order={6}>{item.title}</Title>
                     <Button
+
                         disabled={!isAdmin && loggedInUserId !== item.authorId}
                         onClick={() => handleDeleteClick(item.id)}
                         variant={"outline"}
@@ -57,7 +58,7 @@ export const RecipeItem: FC<RecipeItemProps> = memo(({ item, imageSrc }) => {
                 </Group>
                 <p>{item.description}</p>
                 <Link to={`/recipe/${item.id}`}>
-                    <Button color="dark" fullWidth mt="md" radius="md">
+                    <Button color="dark" fullWidth mt="md" radius="md" data-cy={`recipeId-${item.id}`}>
                         <Text fw={500}>Sprawdź przepis</Text>
                     </Button>
                 </Link>

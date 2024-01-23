@@ -38,8 +38,8 @@ export const RecipeList = () => {
     return (
         <div style={{ width: "100%" }}>
             <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>
-                {paginatedData.map((item) => (
-                    <RecipeItem key={item.id} item={item} imageSrc={"./image-from-rawpixel-id-449412-jpeg.jpg"} />
+                {paginatedData.map((item,index) => (
+                    <RecipeItem key={item.id} item={item} imageSrc={"./image-from-rawpixel-id-449412-jpeg.jpg"}  data-cy={`recipeId-${index}`}/>
                 ))}
             </SimpleGrid>
             <Center>

@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@types/date-fns": "^2.6.0",
+    "cypress": "^13.6.3",
     "postcss": "^8.4.33",
     "postcss-preset-mantine": "^1.12.3",
     "postcss-simple-vars": "^7.0.1"

@@ -44,12 +44,13 @@ export const CommentForm = () => {
             <form onSubmit={commentForm.onSubmit(handleSubmit)}>
 
                 <TextInput
+                    data-cy="commentform-content"
                     label="Dodaj komentarz"
                     placeholder="..."
                     {...commentForm.getInputProps("content")}
                 />
                 <Group justify="flex-end" mt="md">
-                    <Button type="submit" color={"dark"}>
+                    <Button data-cy="commentform-submit" type="submit" color={"dark"}>
                         Dodaj
                     </Button>
                 </Group>

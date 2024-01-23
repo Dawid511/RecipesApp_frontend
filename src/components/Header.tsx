@@ -34,7 +34,7 @@ export const Header = () => {
                     <Button onClick={handleCategorySelect} component={Link} to="/recipe" color="dark">
                         Strona gotowania
                     </Button>
-                    <Button leftSection={<IconPlus size={16} />} component={Link} to="/recipe/new" variant="outline" color="dark">
+                    <Button data-cy="recipeAdd" leftSection={<IconPlus size={16} />} component={Link} to="/recipe/new" variant="outline" color="dark">
                         Dodaj przepis
                     </Button>
                     <Button component={Link} to="/recipe/me" variant="outline" color="dark">

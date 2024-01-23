@@ -16,8 +16,8 @@ export const RecipeList = () => {
     const [activePage, setActivePage] = useState(1);
     const { categoryId } = useContext(CategoryContext);
     const location = useLocation();
-    const isMyRecipes = location.pathname.endsWith('/me');
     const isFav = location.pathname.endsWith('/fav');
+    const isMyRecipes = location.pathname.endsWith('/me');
 
     useEffect(() => {
         listMe().then((response: UserType) => setUserData(response));

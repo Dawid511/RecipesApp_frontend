@@ -4,7 +4,7 @@ import React from "react";
 
 export const Footer = () => {
     return (
-        <div style={{ marginTop: 'auto', padding: '12px', textAlign: 'center', background: 'gold' }}>
+        <div style={{ marginTop: 'auto', padding: '12px', textAlign: 'center', background: 'lightgoldenrodyellow' }}>
             <Text fs="italic" fw={700}>
                 <IconStar size={18} /> Pyszne Inspiracje by Dawid Grabalski & Patrycja Jabłońska <IconStar size={18} />
             </Text>

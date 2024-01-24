@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { listMe } from "../login/api/get-me";
 import { UserType } from "../../types/UserType";
 import {Button, Group, Paper, Rating} from "@mantine/core";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import { useRatingForm } from "./hooks/useRatingForm";
 import { RatingFormValues } from "../../types/RatingFormValues";
 import { createRating } from "./api/create-rating";
@@ -17,7 +17,7 @@ export const RatingForm = () => {
     const [userData, setUserData] = useState<UserType>();
     const { id } = useParams();
     const ratingForm = useRatingForm();
-
+    const navigate = useNavigate();
     useEffect(() => {
         listMe().then((user) => {
             ratingForm.setFieldValue("userId", user.id);
@@ -30,6 +30,7 @@ export const RatingForm = () => {
     const handleSubmit = async (vals: RatingFormValues) => {
         try {
             await createRating(vals);
+             navigate(0);
         } catch (e) {
             // Obsłuż błąd
         }

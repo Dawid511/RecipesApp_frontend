@@ -1,63 +1,54 @@
-import {Button, Group, MultiSelect, NumberInput, Paper, Stack, Textarea, TextInput} from "@mantine/core"
-import {RecipeFormValues} from "../../types/RecipeFormValues";
-import {useRecipeForm} from "./hooks/useRecipeForm";
-import {createRecipe} from "./api/create-recipe";
-import {recipeErrorNotification} from "./notification";
-import {recipeSuccessNotification} from "./notificationSucces";
-import {useEffect, useState} from "react";
-import {listCategories} from "../categories/api/get-categories";
-import {CategoryType} from "../../types/CategoryType";
-import {UserType} from "../../types/UserType";
-import {listMe} from "../login/api/get-me";
+import {Button, Group, Paper, Stack, Textarea, TextInput, Notification, MultiSelect, NumberInput} from "@mantine/core";
+import { RecipeFormValues } from "../../types/RecipeFormValues";
+import { useRecipeForm } from "./hooks/useRecipeForm";
+import { createRecipe } from "./api/create-recipe";
+import React, { useEffect, useState } from "react";
+import { listCategories } from "../categories/api/get-categories";
+import { CategoryType } from "../../types/CategoryType";
+import { UserType } from "../../types/UserType";
+import { listMe } from "../login/api/get-me";
 
 interface SelectItem {
     value: string;
     label: string;
 }
 
-interface SelectItem2 {
-    id: string;
-    label: string;
-    label2: string;
-    label3: string;
-    isAdmin: boolean;
-}
 
 export const RecipeForm = () => {
-    const [data2 , setData2] = useState<UserType[]>([]);
+    const [data2, setData2] = useState<UserType[]>([]);
     const form = useRecipeForm();
     const [data, setData] = useState<SelectItem[]>([]);
+    const [successNotification, setSuccessNotification] = useState(false);
+    const [errorNotification, setErrorNotification] = useState(false);
+
     useEffect(() => {
         listCategories().then((response: CategoryType[]) => {
             const formattedCategories: SelectItem[] = response.map(category => ({
-                value: category.id.toString(), // Assuming id is a number and needs to be converted to string
+                value: category.id.toString(),
                 label: category.name
             }));
             setData(formattedCategories);
         });
     }, []);
 
-    let [userData, setUserData] = useState<UserType>();
-
-
     useEffect(() => {
         listMe().then((user) => {
-            // Assuming listMe returns a single user object
             form.setFieldValue('authorId', user.id);
         });
     }, []);
 
-
-
     const handleSubmit = async (vals: RecipeFormValues) => {
         try {
             await createRecipe(vals);
-            recipeSuccessNotification()
+            setSuccessNotification(true);
         } catch (e) {
-            recipeErrorNotification();
+            setErrorNotification(true);
         }
     }
-
+    const handleNotificationClose = () => {
+        setErrorNotification(false);
+        setSuccessNotification(false);
+    };
     return (
         <Paper shadow="xs" p="xl">
             <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -120,13 +111,20 @@ export const RecipeForm = () => {
                             form.setFieldValue('categoryIds', categoryIds);
                         }}
                     />
-
                     <Group justify="flex-end" mt="md">
-                        <Button type="submit" color={"dark"}> Dodaj przepis </Button>
-                    </Group>
+                        <Button type="submit" color={"dark"}> Dodaj przepis </Button> </Group>
                 </Stack>
             </form>
+            {successNotification && (
+                <Notification color="green" title="Sukces" onClose={handleNotificationClose} >
+                    Dodano przepis poprawnie
+                </Notification>
+            )}
+            {errorNotification && (
+                <Notification color="red" title="Error" onClose={handleNotificationClose} >
+                    Dodawanie przepisu nie powiodło się
+                </Notification>
+            )}
         </Paper>
-    )
+    );
 }
-

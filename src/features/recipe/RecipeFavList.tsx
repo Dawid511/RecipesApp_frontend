@@ -16,7 +16,6 @@ export const RecipeFavList = () => {
     const [activePage, setActivePage] = useState(1);
     const { categoryId } = useContext(CategoryContext);
     const location = useLocation();
-    const isMyRecipes = location.pathname.endsWith('/me');
     const isFav = location.pathname.endsWith('/fav');
 
     useEffect(() => {

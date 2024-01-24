@@ -33,12 +33,8 @@ export const RecipeInformation: React.FC = () => {
         // logika usun/dodaj
         setIsFavorite((prevIsFavorite) => !prevIsFavorite);
         listMe().then((user: UserType) => {
-            // Assuming user object has an id property
             const userId = user.id;
-
-            // Ensure you have both userId and recipeId before creating the favorite
             if (userId && id) {
-                // Convert recipeId from string to number if necessary
                 const fav: FavType = {
                     userId: userId,
                     recipeId: parseInt(id, 10)

@@ -1,0 +1,312 @@
+Index: src/features/recipe/RecipeForm.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {Button, Group, MultiSelect, NumberInput, Paper, Stack, Textarea, TextInput} from \"@mantine/core\"\r\nimport {RecipeFormValues} from \"../../types/RecipeFormValues\";\r\nimport {useRecipeForm} from \"./hooks/useRecipeForm\";\r\nimport {createRecipe} from \"./api/create-recipe\";\r\nimport {recipeErrorNotification} from \"./notification\";\r\nimport {recipeSuccessNotification} from \"./notificationSucces\";\r\nimport {useEffect, useState} from \"react\";\r\nimport {listCategories} from \"../categories/api/get-categories\";\r\nimport {CategoryType} from \"../../types/CategoryType\";\r\nimport {UserType} from \"../../types/UserType\";\r\nimport {listMe} from \"../login/api/get-me\";\r\n\r\ninterface SelectItem {\r\n    value: string;\r\n    label: string;\r\n}\r\n\r\ninterface SelectItem2 {\r\n    id: string;\r\n    label: string;\r\n    label2: string;\r\n    label3: string;\r\n    isAdmin: boolean;\r\n}\r\n\r\nexport const RecipeForm = () => {\r\n    const [data2 , setData2] = useState<UserType[]>([]);\r\n    const form = useRecipeForm();\r\n    const [data, setData] = useState<SelectItem[]>([]);\r\n    useEffect(() => {\r\n        listCategories().then((response: CategoryType[]) => {\r\n            const formattedCategories: SelectItem[] = response.map(category => ({\r\n                value: category.id.toString(), // Assuming id is a number and needs to be converted to string\r\n                label: category.name\r\n            }));\r\n            setData(formattedCategories);\r\n        });\r\n    }, []);\r\n\r\n    let [userData, setUserData] = useState<UserType>();\r\n\r\n\r\n    useEffect(() => {\r\n        listMe().then((user) => {\r\n            // Assuming listMe returns a single user object\r\n            form.setFieldValue('authorId', user.id);\r\n        });\r\n    }, []);\r\n\r\n\r\n\r\n    const handleSubmit = async (vals: RecipeFormValues) => {\r\n        try {\r\n            await createRecipe(vals);\r\n            recipeSuccessNotification()\r\n        } catch (e) {\r\n            recipeErrorNotification();\r\n        }\r\n    }\r\n\r\n    return (\r\n        <Paper shadow=\"xs\" p=\"xl\">\r\n            <form onSubmit={form.onSubmit(handleSubmit)}>\r\n                <Stack\r\n                    h=\"auto\"\r\n                    bg=\"var(--mantine-color-body)\"\r\n                    gap=\"sm\"\r\n                >\r\n                    <TextInput\r\n                        label=\"Nazwa przepisu\"\r\n                        description=\"Dodaj nazwę przepisu, aby inni mogli go wyszukać\"\r\n                        placeholder=\"Nazwa przepisu\"\r\n                        {...form.getInputProps('title')}\r\n                    />\r\n\r\n                    <Textarea\r\n                        label=\"Opis przepisu\"\r\n                        description=\"Opisz przepis\"\r\n                        placeholder=\"Opis\"\r\n                        {...form.getInputProps('description')}\r\n                    />\r\n\r\n                    <Textarea\r\n                        label=\"Składniki\"\r\n                        description=\"Wypisz niezbedne skladniki\"\r\n                        placeholder=\"Skladniki\"\r\n                        {...form.getInputProps('ingredients')}\r\n                    />\r\n\r\n                    <Textarea\r\n                        label=\"Sposób przygotowania\"\r\n                        description=\"Dodaj kolejne kroki przygotowania potrawy\"\r\n                        placeholder=\"steps\"\r\n                        {...form.getInputProps('steps')}\r\n                    />\r\n\r\n                    <NumberInput\r\n                        label=\"Trudnosc wykonania\"\r\n                        placeholder=\"Wybierz od 1 - najlatwiejszy do 3 - najciezszy\"\r\n                        min={1}\r\n                        max={3}\r\n                        {...form.getInputProps('difficulty')}\r\n                    />\r\n\r\n                    <NumberInput\r\n                        label=\"Czas przygotowania\"\r\n                        description=\"Podaj czas przygotowania potrawy w minutach\"\r\n                        placeholder=\"\"\r\n                        {...form.getInputProps('timeToMake')}\r\n                    />\r\n\r\n                    <MultiSelect\r\n                        label=\"Kategorie przepisu\"\r\n                        placeholder=\"Pick value\"\r\n                        data={data}\r\n                        clearable\r\n                        onChange={(selectedValues) => {\r\n                            // Convert the string values back to numbers and update the form state\r\n                            const categoryIds = selectedValues.map((value) => parseInt(value, 10));\r\n                            form.setFieldValue('categoryIds', categoryIds);\r\n                        }}\r\n                    />\r\n\r\n                    <Group justify=\"flex-end\" mt=\"md\">\r\n                        <Button type=\"submit\" color={\"dark\"}> Dodaj przepis </Button>\r\n                    </Group>\r\n                </Stack>\r\n            </form>\r\n        </Paper>\r\n    )\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/recipe/RecipeForm.tsx b/src/features/recipe/RecipeForm.tsx
+--- a/src/features/recipe/RecipeForm.tsx	(revision cc11b3d6c62f0baecb6e294458d181f7e623fbde)
++++ b/src/features/recipe/RecipeForm.tsx	(date 1706032856304)
+@@ -1,63 +1,54 @@
+-import {Button, Group, MultiSelect, NumberInput, Paper, Stack, Textarea, TextInput} from "@mantine/core"
+-import {RecipeFormValues} from "../../types/RecipeFormValues";
+-import {useRecipeForm} from "./hooks/useRecipeForm";
+-import {createRecipe} from "./api/create-recipe";
+-import {recipeErrorNotification} from "./notification";
+-import {recipeSuccessNotification} from "./notificationSucces";
+-import {useEffect, useState} from "react";
+-import {listCategories} from "../categories/api/get-categories";
+-import {CategoryType} from "../../types/CategoryType";
+-import {UserType} from "../../types/UserType";
+-import {listMe} from "../login/api/get-me";
++import {Button, Group, Paper, Stack, Textarea, TextInput, Notification, MultiSelect, NumberInput} from "@mantine/core";
++import { RecipeFormValues } from "../../types/RecipeFormValues";
++import { useRecipeForm } from "./hooks/useRecipeForm";
++import { createRecipe } from "./api/create-recipe";
++import React, { useEffect, useState } from "react";
++import { listCategories } from "../categories/api/get-categories";
++import { CategoryType } from "../../types/CategoryType";
++import { UserType } from "../../types/UserType";
++import { listMe } from "../login/api/get-me";
+ 
+ interface SelectItem {
+     value: string;
+     label: string;
+ }
+ 
+-interface SelectItem2 {
+-    id: string;
+-    label: string;
+-    label2: string;
+-    label3: string;
+-    isAdmin: boolean;
+-}
+ 
+ export const RecipeForm = () => {
+-    const [data2 , setData2] = useState<UserType[]>([]);
++    const [data2, setData2] = useState<UserType[]>([]);
+     const form = useRecipeForm();
+     const [data, setData] = useState<SelectItem[]>([]);
++    const [successNotification, setSuccessNotification] = useState(false);
++    const [errorNotification, setErrorNotification] = useState(false);
++
+     useEffect(() => {
+         listCategories().then((response: CategoryType[]) => {
+             const formattedCategories: SelectItem[] = response.map(category => ({
+-                value: category.id.toString(), // Assuming id is a number and needs to be converted to string
++                value: category.id.toString(),
+                 label: category.name
+             }));
+             setData(formattedCategories);
+         });
+     }, []);
+ 
+-    let [userData, setUserData] = useState<UserType>();
+-
+-
+     useEffect(() => {
+         listMe().then((user) => {
+-            // Assuming listMe returns a single user object
+             form.setFieldValue('authorId', user.id);
+         });
+     }, []);
+ 
+-
+-
+     const handleSubmit = async (vals: RecipeFormValues) => {
+         try {
+             await createRecipe(vals);
+-            recipeSuccessNotification()
++            setSuccessNotification(true);
+         } catch (e) {
+-            recipeErrorNotification();
++            setErrorNotification(true);
+         }
+     }
+-
++    const handleNotificationClose = () => {
++        setErrorNotification(false);
++        setSuccessNotification(false);
++    };
+     return (
+         <Paper shadow="xs" p="xl">
+             <form onSubmit={form.onSubmit(handleSubmit)}>
+@@ -120,13 +111,20 @@
+                             form.setFieldValue('categoryIds', categoryIds);
+                         }}
+                     />
+-
+                     <Group justify="flex-end" mt="md">
+-                        <Button type="submit" color={"dark"}> Dodaj przepis </Button>
+-                    </Group>
++                        <Button type="submit" color={"dark"}> Dodaj przepis </Button> </Group>
+                 </Stack>
+             </form>
++            {successNotification && (
++                <Notification color="green" title="Sukces" onClose={handleNotificationClose} >
++                    Dodano przepis poprawnie
++                </Notification>
++            )}
++            {errorNotification && (
++                <Notification color="red" title="Error" onClose={handleNotificationClose} >
++                    Dodawanie przepisu nie powiodło się
++                </Notification>
++            )}
+         </Paper>
+-    )
++    );
+ }
+-
+Index: src/components/Footer.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {Text} from '@mantine/core';\r\nimport {IconStar} from \"@tabler/icons-react\";\r\nimport React from \"react\";\r\n\r\nexport const Footer = () => {\r\n    return (\r\n        <div style={{ marginTop: 'auto', padding: '12px', textAlign: 'center', background: 'gold' }}>\r\n            <Text fs=\"italic\" fw={700}>\r\n                <IconStar size={18} /> Pyszne Inspiracje by Dawid Grabalski & Patrycja Jabłońska <IconStar size={18} />\r\n            </Text>\r\n        </div>\r\n    );\r\n};\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Footer.tsx b/src/components/Footer.tsx
+--- a/src/components/Footer.tsx	(revision cc11b3d6c62f0baecb6e294458d181f7e623fbde)
++++ b/src/components/Footer.tsx	(date 1706029526772)
+@@ -4,7 +4,7 @@
+ 
+ export const Footer = () => {
+     return (
+-        <div style={{ marginTop: 'auto', padding: '12px', textAlign: 'center', background: 'gold' }}>
++        <div style={{ marginTop: 'auto', padding: '12px', textAlign: 'center', background: 'lightgoldenrodyellow' }}>
+             <Text fs="italic" fw={700}>
+                 <IconStar size={18} /> Pyszne Inspiracje by Dawid Grabalski & Patrycja Jabłońska <IconStar size={18} />
+             </Text>
+Index: src/features/rating/RatingForm.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useEffect, useState } from \"react\";\r\nimport { listMe } from \"../login/api/get-me\";\r\nimport { UserType } from \"../../types/UserType\";\r\nimport {Button, Group, Paper, Rating} from \"@mantine/core\";\r\nimport { useParams } from \"react-router-dom\";\r\nimport { useRatingForm } from \"./hooks/useRatingForm\";\r\nimport { RatingFormValues } from \"../../types/RatingFormValues\";\r\nimport { createRating } from \"./api/create-rating\";\r\n\r\ninterface RatingFormProps {\r\n    rate: number;\r\n    userId: number;\r\n    recipeId: number;\r\n}\r\n\r\nexport const RatingForm = () => {\r\n    const [userData, setUserData] = useState<UserType>();\r\n    const { id } = useParams();\r\n    const ratingForm = useRatingForm();\r\n\r\n    useEffect(() => {\r\n        listMe().then((user) => {\r\n            ratingForm.setFieldValue(\"userId\", user.id);\r\n            if (id != null) {\r\n                ratingForm.setFieldValue(\"recipeId\", parseInt(id, 10));\r\n            }\r\n        });\r\n    }, []);\r\n\r\n    const handleSubmit = async (vals: RatingFormValues) => {\r\n        try {\r\n            await createRating(vals);\r\n        } catch (e) {\r\n            // Obsłuż błąd\r\n        }\r\n    };\r\n\r\n    return (\r\n        <Paper shadow=\"xs\" p=\"xl\">\r\n        <form onSubmit={ratingForm.onSubmit(handleSubmit)}>\r\n            <Group justify={\"space-between\"}>\r\n                <Group>\r\n                    <p>Oceń przepis!</p>\r\n                    <Rating size=\"lg\" value={ratingForm.values.rate} onChange={(value) => ratingForm.setFieldValue(\"rate\", value)} />\r\n                </Group>\r\n            <Button type=\"submit\" color={\"dark\"}>Zatwierdź</Button>\r\n            </Group>\r\n        </form>\r\n        </Paper>\r\n    );\r\n};\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/rating/RatingForm.tsx b/src/features/rating/RatingForm.tsx
+--- a/src/features/rating/RatingForm.tsx	(revision cc11b3d6c62f0baecb6e294458d181f7e623fbde)
++++ b/src/features/rating/RatingForm.tsx	(date 1706033901677)
+@@ -2,7 +2,7 @@
+ import { listMe } from "../login/api/get-me";
+ import { UserType } from "../../types/UserType";
+ import {Button, Group, Paper, Rating} from "@mantine/core";
+-import { useParams } from "react-router-dom";
++import {useNavigate, useParams} from "react-router-dom";
+ import { useRatingForm } from "./hooks/useRatingForm";
+ import { RatingFormValues } from "../../types/RatingFormValues";
+ import { createRating } from "./api/create-rating";
+@@ -17,7 +17,7 @@
+     const [userData, setUserData] = useState<UserType>();
+     const { id } = useParams();
+     const ratingForm = useRatingForm();
+-
++    const navigate = useNavigate();
+     useEffect(() => {
+         listMe().then((user) => {
+             ratingForm.setFieldValue("userId", user.id);
+@@ -30,6 +30,7 @@
+     const handleSubmit = async (vals: RatingFormValues) => {
+         try {
+             await createRating(vals);
++             navigate(0);
+         } catch (e) {
+             // Obsłuż błąd
+         }
+Index: src/features/recipe/RecipeInformation.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, {useEffect, useState} from \"react\";\r\nimport {Link, useParams} from \"react-router-dom\";\r\nimport {RecipeType} from \"../../types/RecipeType\";\r\nimport {listRecipe} from \"./api/recipe\";\r\nimport {ActionIcon, Button, CopyButton, Divider, Group, Paper, Rating, rem, ThemeIcon, Tooltip} from \"@mantine/core\";\r\nimport {\r\n    IconCheck,\r\n    IconCircle,\r\n    IconCircleFilled,\r\n    IconClockHour2,\r\n    IconCopy,\r\n    IconHeart,\r\n    IconHeartPlus\r\n} from \"@tabler/icons-react\";\r\nimport {listMe} from \"../login/api/get-me\";\r\nimport {CommentList} from \"../comment/Comment\";\r\nimport {CommentForm} from \"../comment/CommentForm\";\r\nimport {RatingValue} from \"../rating/Rating\";\r\nimport {RatingForm} from \"../rating/RatingForm\";\r\nimport {createFav} from \"../fav/api/create-fav\";\r\nimport {UserType} from \"../../types/UserType\";\r\nimport {FavType} from \"../../types/FavType\";\r\n\r\nexport const RecipeInformation: React.FC = () => {\r\n    const [data, setData] = useState<RecipeType[]>([]);\r\n    const [authorName, setAuthorName] = useState<string>(\"\");\r\n    const [value, setValue] = useState(0);\r\n    // Używamy hooka useParams do pobrania wartości z dynamicznej ścieżki\r\n    const { id } = useParams<{ id: string}>();\r\n    const [isFavorite, setIsFavorite] = useState(false);\r\n\r\n    const handleClick = () => {\r\n        // logika usun/dodaj\r\n        setIsFavorite((prevIsFavorite) => !prevIsFavorite);\r\n        listMe().then((user: UserType) => {\r\n            // Assuming user object has an id property\r\n            const userId = user.id;\r\n\r\n            // Ensure you have both userId and recipeId before creating the favorite\r\n            if (userId && id) {\r\n                // Convert recipeId from string to number if necessary\r\n                const fav: FavType = {\r\n                    userId: userId,\r\n                    recipeId: parseInt(id, 10)\r\n                };\r\n                createFav(fav);\r\n            } else {\r\n                console.error('Missing userId or recipeId');\r\n            }\r\n        });\r\n    };\r\n\r\n    useEffect(() => {\r\n        if (data.length === 0) {\r\n            listRecipe().then((response) => {\r\n                setData(response);\r\n            });\r\n        }\r\n    }, [data]);\r\n\r\n    useEffect(() => {\r\n        // Pobieram informacje o zalogowanym użytkowniku\r\n        listMe().then((user) => {\r\n            // Przypisuje imię i nazwisko do state\r\n            setAuthorName(`${user.firstName} ${user.lastName}`);\r\n        });\r\n    }, []);\r\n\r\n    const selectedRecipe = data.find((recipe) => recipe.id === (id ? +id : undefined));\r\n\r\n    if (!selectedRecipe) {\r\n        return <div>Recipe not found.</div>;\r\n    }\r\n\r\n    const dividerStyle = {\r\n        label: {\r\n            fontSize: \"20px\",\r\n        },\r\n    };\r\n\r\n    return (\r\n        <Paper shadow=\"xl\" withBorder p=\"sm\">\r\n            <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>\r\n                <Group justify={\"space-between\"}>\r\n                    <Link to={`/recipe`}>\r\n                        <Button color=\"dark\" mt=\"sm\" radius=\"md\">Powrót</Button>\r\n                    </Link>\r\n                    <Button\r\n                        leftSection={isFavorite ? <IconHeart size={14} /> : <IconHeartPlus size={14} />}\r\n                        color={isFavorite ? \"gold\" : \"dark\"}\r\n                        mt=\"md\"\r\n                        radius=\"md\"\r\n                        onClick={handleClick}\r\n                    >\r\n                        {isFavorite ? \"Lubisz to!\" : \"Dodaj do ulubionych\"}\r\n                    </Button>\r\n                </Group>\r\n                <h2 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>\r\n                <span>\r\n                    {selectedRecipe.title}\r\n                    <RatingValue recipeId={selectedRecipe.id}/>\r\n                </span>\r\n                    <Paper shadow=\"xl\" radius=\"md\" withBorder p=\"sm\">\r\n                <span style={{ display: 'flex', alignItems: 'center' }}>\r\n                    <ThemeIcon variant=\"white\" size=\"xl\" color=\"rgba(0, 0, 0, 1)\">\r\n                        <IconClockHour2 style={{ width: '100%', height: '100%' }} />\r\n                    </ThemeIcon>\r\n                    <p style={{ marginLeft: '5px' }}>{selectedRecipe.timeToMake} min.</p>\r\n                    <p style={{ marginLeft: '20px' }}></p>\r\n                    <Rating\r\n                        defaultValue={selectedRecipe.difficulty}\r\n                        size=\"xl\"\r\n                        count={3}\r\n                        emptySymbol={<IconCircle />}\r\n                        fullSymbol={<IconCircleFilled />}\r\n                        readOnly\r\n                    />\r\n                </span>\r\n                    </Paper>\r\n                </h2>\r\n                <Divider size=\"md\" label=\"Opis przepisu\" labelPosition=\"left\" styles={dividerStyle} />\r\n                <p>{selectedRecipe.description}</p>\r\n                <Divider size=\"md\" label=\"Składniki\" labelPosition=\"left\" styles={dividerStyle}/>\r\n                <p>{selectedRecipe.ingredients}\r\n                <CopyButton value={selectedRecipe.ingredients} timeout={2000} >\r\n                    {({ copied, copy }) => (\r\n                        <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position=\"right\">\r\n                            <ActionIcon color={copied ? 'black' : 'gray'} variant=\"subtle\" onClick={copy}>\r\n                                {copied ? (\r\n                                    <IconCheck style={{ width: rem(16) }} />\r\n                                ) : (\r\n                                    <IconCopy style={{ width: rem(16) }} />\r\n                                )}\r\n                            </ActionIcon>\r\n                        </Tooltip>\r\n                    )}</CopyButton></p>\r\n                <Divider size=\"md\" label=\"Sposób przygotowania\" labelPosition=\"left\" styles={dividerStyle} />\r\n                <p>{selectedRecipe.steps}\r\n                    <CopyButton value={selectedRecipe.steps} timeout={2000} >\r\n                        {({ copied, copy }) => (\r\n                            <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position=\"right\">\r\n                                <ActionIcon color={copied ? 'black' : 'gray'} variant=\"subtle\" onClick={copy}>\r\n                                    {copied ? (\r\n                                        <IconCheck style={{ width: rem(16) }} />\r\n                                    ) : (\r\n                                        <IconCopy style={{ width: rem(16) }} />\r\n                                    )}\r\n                                </ActionIcon>\r\n                            </Tooltip>\r\n                        )}</CopyButton></p>\r\n                <Divider size=\"md\" labelPosition=\"left\" styles={dividerStyle} />\r\n                <p style={{ textAlign: \"right\" }}>Dodane przez {authorName}</p>\r\n                <RatingForm/>\r\n                    <CommentForm/>\r\n                <CommentList recipeId={selectedRecipe.id} />\r\n            </div>\r\n        </Paper>\r\n    );\r\n};
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/recipe/RecipeInformation.tsx b/src/features/recipe/RecipeInformation.tsx
+--- a/src/features/recipe/RecipeInformation.tsx	(revision cc11b3d6c62f0baecb6e294458d181f7e623fbde)
++++ b/src/features/recipe/RecipeInformation.tsx	(date 1706036502810)
+@@ -33,12 +33,8 @@
+         // logika usun/dodaj
+         setIsFavorite((prevIsFavorite) => !prevIsFavorite);
+         listMe().then((user: UserType) => {
+-            // Assuming user object has an id property
+             const userId = user.id;
+-
+-            // Ensure you have both userId and recipeId before creating the favorite
+             if (userId && id) {
+-                // Convert recipeId from string to number if necessary
+                 const fav: FavType = {
+                     userId: userId,
+                     recipeId: parseInt(id, 10)
+Index: src/features/recipe/RecipeFavList.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, {useContext, useEffect, useState} from \"react\";\r\nimport {Center, Pagination, SimpleGrid} from \"@mantine/core\";\r\nimport {RecipeType} from \"../../types/RecipeType\";\r\nimport {RecipeItem} from \"./RecipeItem\";\r\nimport {listFavRecipeById, listRecipe, listRecipeById} from \"./api/recipe\";\r\nimport {CategoryContext} from \"../categories/CategoryContext\";\r\nimport {useLocation} from \"react-router-dom\";\r\nimport {listMe} from \"../login/api/get-me\";\r\nimport {UserType} from \"../../types/UserType\";\r\n\r\nconst ITEMS_PER_PAGE = 9;\r\n\r\nexport const RecipeFavList = () => {\r\n    const [data, setData] = useState<RecipeType[]>([]);\r\n    const [userData, setUserData] = useState<UserType>();\r\n    const [activePage, setActivePage] = useState(1);\r\n    const { categoryId } = useContext(CategoryContext);\r\n    const location = useLocation();\r\n    const isMyRecipes = location.pathname.endsWith('/me');\r\n    const isFav = location.pathname.endsWith('/fav');\r\n\r\n    useEffect(() => {\r\n        listMe().then((response: UserType) => {\r\n            if (!response || response.id === undefined) {\r\n                throw new Error('userData is required but was not provided');\r\n            }\r\n            setUserData(response);\r\n            listFavRecipeById(response.id).then((response: RecipeType[]) => setData(response));\r\n        });\r\n    }, [location]);\r\n\r\n    const paginatedData = data.slice(\r\n        (activePage - 1) * ITEMS_PER_PAGE,\r\n        activePage * ITEMS_PER_PAGE\r\n    );\r\n\r\n    const handlePageChange = (page: number) => {\r\n        setActivePage(page);\r\n    };\r\n\r\n    return (\r\n        <div style={{ width: \"100%\" }}>\r\n            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }}>\r\n                {paginatedData.map((item) => (\r\n                    <RecipeItem key={item.id} item={item} imageSrc={\"http://localhost:3000/image-from-rawpixel-id-449412-jpeg.jpg\"}/>\r\n                ))}\r\n            </SimpleGrid>\r\n            <Center>\r\n                <Pagination\r\n                    total={Math.ceil(data.length / ITEMS_PER_PAGE)}\r\n                    value={activePage}\r\n                    onChange={handlePageChange}\r\n                    mt=\"sm\"\r\n                    color=\"rgba(0, 0, 0, 1)\"\r\n                    radius=\"xl\"\r\n                />\r\n            </Center>\r\n        </div>\r\n    );\r\n};\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/recipe/RecipeFavList.tsx b/src/features/recipe/RecipeFavList.tsx
+--- a/src/features/recipe/RecipeFavList.tsx	(revision cc11b3d6c62f0baecb6e294458d181f7e623fbde)
++++ b/src/features/recipe/RecipeFavList.tsx	(date 1706036502780)
+@@ -16,7 +16,6 @@
+     const [activePage, setActivePage] = useState(1);
+     const { categoryId } = useContext(CategoryContext);
+     const location = useLocation();
+-    const isMyRecipes = location.pathname.endsWith('/me');
+     const isFav = location.pathname.endsWith('/fav');
+ 
+     useEffect(() => {
+Index: src/features/login/LoginPage.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, {FC} from \"react\";\r\nimport {useForm} from \"@mantine/form\";\r\nimport {Button, Container, Divider, Paper, PasswordInput, TextInput, Title} from \"@mantine/core\";\r\nimport {useNavigate} from \"react-router-dom\";\r\nimport {login} from \"./api/login\";\r\nimport {registerErrorNotification} from \"./notifications\";\r\nimport {register} from \"./api/register\";\r\n\r\ntype LoginFormType = {\r\n    email: string;\r\n    password: string;\r\n}\r\n\r\ntype RegisterFormType = {\r\n    firstName: string;\r\n    lastName: string;\r\n    email: string;\r\n    password: string;\r\n}\r\n\r\nexport const LoginPage: FC = () => {\r\n    const navigate = useNavigate();\r\n    const form = useForm<LoginFormType>({\r\n        initialValues: {\r\n            email: '',\r\n            password: '',\r\n        },\r\n    });\r\n\r\n    const form2 = useForm<RegisterFormType>({\r\n        initialValues: {\r\n            firstName: '',\r\n            lastName: '',\r\n            email: '',\r\n            password: '',\r\n        },\r\n    });\r\n\r\n    const handleSubmit = async (data: LoginFormType) => {\r\n        try {\r\n            await login(data.email, data.password);\r\n            navigate('/recipe');\r\n        } catch (error) {\r\n            registerErrorNotification();\r\n        }\r\n    }\r\n\r\n    const handleSubmitRegistration = async (data: RegisterFormType) => {\r\n        try {\r\n            await register(data.firstName, data.lastName, data.email, data.password);\r\n            //navigate('/login');\r\n        } catch (error) {\r\n            registerErrorNotification();\r\n        }\r\n    }\r\n\r\n    return (\r\n        <Container size=\"lg\" style={{paddingTop: '5vh', height: \"100vh\"}}>\r\n            <Paper withBorder shadow=\"md\" p=\"xl\" radius=\"md\"\r\n                   style={{\r\n                       height: 'auto',\r\n                       display: 'flex',\r\n                       flexDirection: 'column',\r\n                       justifyContent: 'top'\r\n                   }}>\r\n                <div style={{\r\n                    display: 'flex',\r\n                    width: '100%',\r\n                    alignItems: 'center',\r\n                    justifyContent: 'space-between',\r\n                }}>\r\n                    <form onSubmit={form.onSubmit(handleSubmit)} style={{flex: 1, padding: '20px'}}>\r\n                        <Title order={3}>Logowanie</Title>\r\n                        <TextInput required label=\"adres e-mail\" placeholder=\"Twój e-mail\"\r\n                                   style={{marginBottom: '1rem'}} {...form.getInputProps('email')} />\r\n                        {/*<TextInput required label=\"Hasło\" placeholder=\"Twoje hasło\"*/}\r\n                        {/*           style={{marginBottom: '1rem'}} {...form.getInputProps('password')} />*/}\r\n                        <PasswordInput required label=\"Hasło\" placeholder=\"podaj hasło\"\r\n                                       style={{marginBottom: '1rem'}} {...form.getInputProps('password')} />\r\n                        <Button fullWidth color=\"dark\" type=\"submit\">Zaloguj się</Button>\r\n\r\n                    </form>\r\n                    <Divider orientation=\"vertical\" size=\"lg\"\r\n                             style={{height: 'auto', padding: '10px'}}/>\r\n\r\n                    <form onSubmit={form2.onSubmit(handleSubmitRegistration)} style={{flex: 1}}>\r\n                        <Title order={3}>Zarejestruj się</Title>\r\n                        <TextInput required label=\"Imię\" placeholder=\"podaj imię\"\r\n                                   style={{marginBottom: '1rem'}} {...form2.getInputProps('firstName')} />\r\n                        <TextInput required label=\"Nazwisko\" placeholder=\"podaj nazwisko\"\r\n                                   style={{marginBottom: '1rem'}} {...form2.getInputProps('lastName')} />\r\n                        <PasswordInput required label=\"Hasło\" placeholder=\"podaj hasło\"\r\n                                       style={{marginBottom: '1rem'}} {...form2.getInputProps('password')} />\r\n                        <TextInput required label=\"Adres e-mail\" placeholder=\"podaj email\"\r\n                                   style={{marginBottom: '1rem'}} {...form2.getInputProps('email')} />\r\n                        <Button fullWidth  color=\"dark\" type=\"submit\">Zarejestruj się</Button>\r\n                    </form>\r\n                </div>\r\n            </Paper>\r\n        </Container>\r\n    );\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/features/login/LoginPage.tsx b/src/features/login/LoginPage.tsx
+--- a/src/features/login/LoginPage.tsx	(revision cc11b3d6c62f0baecb6e294458d181f7e623fbde)
++++ b/src/features/login/LoginPage.tsx	(date 1706033719795)
+@@ -78,7 +78,6 @@
+                         <PasswordInput required label="Hasło" placeholder="podaj hasło"
+                                        style={{marginBottom: '1rem'}} {...form.getInputProps('password')} />
+                         <Button fullWidth color="dark" type="submit">Zaloguj się</Button>
+-
+                     </form>
+                     <Divider orientation="vertical" size="lg"
+                              style={{height: 'auto', padding: '10px'}}/>
+Index: src/features/recipe/notification.ts
+===================================================================
+diff --git a/src/features/recipe/notification.ts b/src/features/recipe/notification.ts
+deleted file mode 100644
+--- a/src/features/recipe/notification.ts	(revision cc11b3d6c62f0baecb6e294458d181f7e623fbde)
++++ /dev/null	(revision cc11b3d6c62f0baecb6e294458d181f7e623fbde)
+@@ -1,9 +0,0 @@
+-import {showNotification} from "@mantine/notifications";
+-
+-export const recipeErrorNotification = () => {
+-    showNotification({
+-        color: 'red',
+-        title: 'Error',
+-        message: 'adding recipe failed'
+-    })
+-}
+\ No newline at end of file
+Index: src/features/recipe/notificationSucces.ts
+===================================================================
+diff --git a/src/features/recipe/notificationSucces.ts b/src/features/recipe/notificationSucces.ts
+deleted file mode 100644
+--- a/src/features/recipe/notificationSucces.ts	(revision cc11b3d6c62f0baecb6e294458d181f7e623fbde)
++++ /dev/null	(revision cc11b3d6c62f0baecb6e294458d181f7e623fbde)
+@@ -1,9 +0,0 @@
+-import {showNotification} from "@mantine/notifications";
+-
+-export const recipeSuccessNotification = () => {
+-    showNotification({
+-        color: 'green',
+-        title: 'Success',
+-        message: 'Recipe has been added'
+-    })
+-}
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"3f2cee0f-77d3-474e-bb67-4d61f83d3b67\" name=\"Changes\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/src/features/recipe/RecipeFavList.tsx\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/features/recipe/RecipeMeList.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_11_21__Changes_.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_11_21__Changes_.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/features/Routing.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/features/Routing.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/features/recipe/RecipeList.tsx\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/features/recipe/RecipeList.tsx\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/features/recipe/api/recipe.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/features/recipe/api/recipe.ts\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"TypeScript JSX File\" />\r\n        <option value=\"TypeScript File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 0\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2bBg3jttli6ypWSopFBNFcF5Y1C\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"git-widget-placeholder\": \"front\",\r\n    \"last_opened_file_path\": \"C:/Users/patip/OneDrive/Desktop/before/Inzynieria_Internetu/Projekt_ii/backend/projekt-zaliczeniowy-grabalski-jablonska\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"settings.editor.selected.configurable\": \"preferences.lookFeel\",\r\n    \"ts.external.directory.path\": \"C:\\\\Users\\\\uzytkownik\\\\Desktop\\\\ProjektII\\\\front\\\\node_modules\\\\typescript\\\\lib\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"3f2cee0f-77d3-474e-bb67-4d61f83d3b67\" name=\"Changes\" comment=\"\" />\r\n      <created>1705693688610</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1705693688610</updated>\r\n      <workItem from=\"1705693689664\" duration=\"217000\" />\r\n      <workItem from=\"1705693939403\" duration=\"608000\" />\r\n      <workItem from=\"1705694741887\" duration=\"7022000\" />\r\n      <workItem from=\"1705704413373\" duration=\"11043000\" />\r\n      <workItem from=\"1705839020283\" duration=\"15215000\" />\r\n      <workItem from=\"1705919960495\" duration=\"890000\" />\r\n      <workItem from=\"1706005279949\" duration=\"7371000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision cc11b3d6c62f0baecb6e294458d181f7e623fbde)
++++ b/.idea/workspace.xml	(date 1706036503282)
+@@ -5,15 +5,17 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="3f2cee0f-77d3-474e-bb67-4d61f83d3b67" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/src/features/recipe/RecipeFavList.tsx" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/features/recipe/RecipeMeList.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_11_21__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_11_21__Changes_.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_13_50__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_13_50__Changes_.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_14_37__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_01_2024_14_37__Changes_.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/features/Routing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/Routing.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/components/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Footer.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/features/login/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/login/LoginPage.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/features/rating/RatingForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/rating/RatingForm.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeFavList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeFavList.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeForm.tsx" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeInformation.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeItem.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/features/recipe/RecipeList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/RecipeList.tsx" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/features/recipe/api/recipe.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/recipe/api/recipe.ts" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/features/recipe/notification.ts" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/features/recipe/notificationSucces.ts" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -58,7 +60,7 @@
+     "node.js.selected.package.tslint": "(autodetect)",
+     "nodejs_package_manager_path": "npm",
+     "settings.editor.selected.configurable": "preferences.lookFeel",
+-    "ts.external.directory.path": "C:\\Users\\uzytkownik\\Desktop\\ProjektII\\front\\node_modules\\typescript\\lib",
++    "ts.external.directory.path": "C:\\Users\\patip\\OneDrive\\Desktop\\before\\Inzynieria_Internetu\\Projekt_ii\\projekt-zaliczeniowy-grabalski-jablonska\\node_modules\\typescript\\lib",
+     "vue.rearranger.settings.migration": "true"
+   }
+ }]]></component>

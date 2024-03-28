@@ -1,10 +1,8 @@
 import {Link} from "react-router-dom";
-import {Button, Group, Modal} from "@mantine/core";
+import {Button, Group} from "@mantine/core";
 import {IconHeart, IconPlus} from "@tabler/icons-react";
 import React, {useContext} from "react";
 import {CategoryContext} from "../features/categories/CategoryContext";
-import {useDisclosure} from "@mantine/hooks";
-import {LoginPage} from "../features/login/LoginPage";
 // const [opened, { open, close }] = useDisclosure(false);
 export const Header = () => {
     const { setCategoryId } = useContext(CategoryContext);
@@ -21,7 +19,7 @@ export const Header = () => {
             <Group justify="space-between" >
                 <Group>
                     <img
-                        src={process.env.PUBLIC_URL + "PyszneInspiracje.jpg"}
+                        src={process.env.PUBLIC_URL + "http://localhost:3000/PyszneInspiracje.jpg"}
                         alt="Pyszne Inspiracje Image"
                         style={{
                             marginLeft: "50px",

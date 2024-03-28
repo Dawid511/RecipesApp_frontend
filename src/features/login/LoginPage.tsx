@@ -1,10 +1,12 @@
-import React, {FC} from "react";
+import React, {FC, useState} from "react";
 import {useForm} from "@mantine/form";
-import {Button, Container, Divider, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
+import {Button, Container, Divider, Notification, Paper, PasswordInput, TextInput, Title} from "@mantine/core";
 import {useNavigate} from "react-router-dom";
 import {login} from "./api/login";
 import {registerErrorNotification} from "./notifications";
 import {register} from "./api/register";
+import {RecipeFormValues} from "../../types/RecipeFormValues";
+import {createRecipe} from "../recipe/api/create-recipe";
 
 type LoginFormType = {
     email: string;
@@ -19,6 +21,8 @@ type RegisterFormType = {
 }
 
 export const LoginPage: FC = () => {
+    const [successNotification, setSuccessNotification] = useState(false);
+    const [errorNotification, setErrorNotification] = useState(false);
     const navigate = useNavigate();
     const form = useForm<LoginFormType>({
         initialValues: {
@@ -36,21 +40,26 @@ export const LoginPage: FC = () => {
         },
     });
 
+    const handleNotificationClose = () => {
+        setErrorNotification(false);
+        setSuccessNotification(false);
+    };
+
     const handleSubmit = async (data: LoginFormType) => {
         try {
             await login(data.email, data.password);
             navigate('/recipe');
         } catch (error) {
-            registerErrorNotification();
+            setErrorNotification(true);
         }
     }
 
     const handleSubmitRegistration = async (data: RegisterFormType) => {
         try {
             await register(data.firstName, data.lastName, data.email, data.password);
-            //navigate('/login');
+            setSuccessNotification(true);
         } catch (error) {
-            registerErrorNotification();
+            setErrorNotification(true);
         }
     }
 
@@ -72,9 +81,7 @@ export const LoginPage: FC = () => {
                     <form onSubmit={form.onSubmit(handleSubmit)} style={{flex: 1, padding: '20px'}}>
                         <Title order={3}>Logowanie</Title>
                         <TextInput data-cy="authform-email" required label="adres e-mail" placeholder="Twój e-mail"
-                                   style={{marginBottom: '1rem'}} {...form.getInputProps('email')} />
-                        {/*<TextInput required label="Hasło" placeholder="Twoje hasło"*/}
-                        {/*           style={{marginBottom: '1rem'}} {...form.getInputProps('password')} />*/}
+                                   style={{marginBottom: '1rem'}} {...form.getInputProps('email')} />z
                         <PasswordInput data-cy="authform-password" required label="Hasło" placeholder="podaj hasło"
                                        style={{marginBottom: '1rem'}} {...form.getInputProps('password')} />
                         <Button data-cy="authform-submit" fullWidth color="dark" type="submit">Zaloguj się</Button>
@@ -95,8 +102,19 @@ export const LoginPage: FC = () => {
                                    style={{marginBottom: '1rem'}} {...form2.getInputProps('email')} />
                         <Button fullWidth  color="dark" type="submit">Zarejestruj się</Button>
                     </form>
+
                 </div>
             </Paper>
+            {successNotification && (
+                <Notification color="green" title="Sukces" onClose={handleNotificationClose} >
+                    Rejestracja przebiegła pomyślnie
+                </Notification>
+            )}
+            {errorNotification && (
+                <Notification color="red" title="Error" onClose={handleNotificationClose} >
+                    Niepoprawne dane
+                </Notification>
+            )}
         </Container>
     );
 }

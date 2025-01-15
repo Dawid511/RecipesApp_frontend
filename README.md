@@ -10,14 +10,14 @@
     - Users can create a personal account with their email address, password, and basic profile details (first name, last name).
     - Login is required to add new recipes, comment on existing ones, or manage favorite recipes.
 
-   ![](images/1.jpeg)
+   ![](images/1.jpg)
     
 2. **Recipe Browsing**
     - The homepage (or “Strona gotowania”) displays a variety of recipes with images, titles, brief descriptions, and buttons to view full details.
     - Recipes are sorted into main categories such as *Obiady* (dinners), *Zupy* (soups), *Desery* (desserts), *Pomysł na śniadanie* (breakfast ideas), *Szybkie danie* (quick meals), and more.
     - Users can filter recipes by these categories to quickly find what they’re interested in.
 
-   ![](images/2.jpeg)
+   ![](images/2.jpg)
 
 3. **Add New Recipes**
     - Logged-in users can create a new recipe by providing:
@@ -30,14 +30,14 @@
         - **Category**
     - Users can upload a photo or link to an image (if supported) to make their recipe more appealing.
 
-   ![](images/4.jpeg)
+   ![](images/4.jpg)
 
 4. **Recipe Details Page**
     - Displays all information about a recipe: a detailed description, ingredients list, and step-by-step preparation instructions.
     - Shows the estimated cooking time and difficulty rating.
     - Allows users to add comments and leave their own star rating (e.g., 1–5 stars).
 
-    ![](images/4.jpeg)
+    ![](images/4.jpg)
 
 5. **Ratings and Comments**
     - Visitors can evaluate each recipe using a star-rating system.

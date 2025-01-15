@@ -1,46 +1,62 @@
-# Getting Started with Create React App
+# Pyszne Inspiracje
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Pyszne Inspiracje** is a web application dedicated to cooking enthusiasts. It allows users to browse, add, rate, and comment on recipes. The app organizes recipes by categories such as main courses, soups, desserts, snacks, and more, making it easy to find culinary inspiration for any occasion.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+1. **User Registration & Login**
+    - Users can create a personal account with their email address, password, and basic profile details (first name, last name).
+    - Login is required to add new recipes, comment on existing ones, or manage favorite recipes.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+   ![](images/1.jpeg)
+    
+2. **Recipe Browsing**
+    - The homepage (or “Strona gotowania”) displays a variety of recipes with images, titles, brief descriptions, and buttons to view full details.
+    - Recipes are sorted into main categories such as *Obiady* (dinners), *Zupy* (soups), *Desery* (desserts), *Pomysł na śniadanie* (breakfast ideas), *Szybkie danie* (quick meals), and more.
+    - Users can filter recipes by these categories to quickly find what they’re interested in.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+   ![](images/2.jpeg)
 
-### `npm test`
+3. **Add New Recipes**
+    - Logged-in users can create a new recipe by providing:
+        - **Recipe Name**
+        - **Description**
+        - **Ingredients**
+        - **Steps for Preparation**
+        - **Difficulty Level**
+        - **Preparation Time**
+        - **Category**
+    - Users can upload a photo or link to an image (if supported) to make their recipe more appealing.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ![](images/4.jpeg)
 
-### `npm run build`
+4. **Recipe Details Page**
+    - Displays all information about a recipe: a detailed description, ingredients list, and step-by-step preparation instructions.
+    - Shows the estimated cooking time and difficulty rating.
+    - Allows users to add comments and leave their own star rating (e.g., 1–5 stars).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    ![](images/4.jpeg)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+5. **Ratings and Comments**
+    - Visitors can evaluate each recipe using a star-rating system.
+    - Users can leave comments, share feedback (“Nice Dish,” etc.), or ask questions about the recipe.
+    - The overall recipe rating is calculated based on user input.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   
+6. **Favorite (Liked) Recipes**
+    - Users can mark recipes as “Favorite” (Polubione) so they can quickly find them later.
+    - A dedicated “Moje przepisy” section shows all the recipes a user has authored or marked.
 
-### `npm run eject`
+7. **Recipe Management**
+    - The recipe author (or an admin, depending on permissions) can edit or delete existing recipes.
+    - Users can manage their own recipes from the “Moje przepisy” page.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Main Technologies
+Frontend: TypeScript, React, Mantine
+Backend: NestJs
+Database: sqlite, prisma
+Test: Cypress
